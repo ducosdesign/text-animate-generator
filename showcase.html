@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text Forge | 20 Kinetic Layers</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Bebas+Neue&family=Monoton&family=Press+Start+2P&family=Righteous&family=Orbitron:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Bebas+Neue&family=Monoton&family=Press+Start+2P&family=Righteous&family=Lobster&family=Orbitron:wght@900&display=swap" rel="stylesheet">
     <style>
         html { scroll-behavior: smooth; }
         body { background-color: #020617; color: #f8fafc; margin: 0; overflow: hidden; font-family: 'Inter', sans-serif; }
@@ -21,7 +21,7 @@
 
         /* Text Forge Core Logic */
         .forge-item { position: relative; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .char { display: inline-block; white-space: pre; }
+        .forge-item span { display: inline-block; white-space: pre; }
         
         /* Floating Drifts */
         .drift-1 { animation: float-drift 6s infinite ease-in-out; }
@@ -35,42 +35,37 @@
         .hover-tag { position: absolute; top: 0; background: #6366f1; color: #fff; font-size: 7px; font-weight: 900; padding: 2px 10px; border-radius: 4px; text-transform: uppercase; white-space: nowrap; box-shadow: 0 0 15px rgba(99,102,241,0.4); }
         .name-label { margin-top: 30px; color: #64748b; font-family: monospace; font-size: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3em; }
 
-        /* --- THE 20 KINETIC ENGINES --- */
+        /* --- THE ANIMATION ENGINES --- */
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
-        @keyframes wave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(15deg); } }
         @keyframes flipX { 0% { transform: rotateX(0); } 100% { transform: rotateX(360deg); } }
-        @keyframes zoom { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.4); } }
-        @keyframes wobble { 0% { transform: translateX(0); } 25% { transform: translateX(-5px) rotate(-5deg); } 75% { transform: translateX(5px) rotate(5deg); } }
         @keyframes jump { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.2, 0.8); } }
-        @keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
-        @keyframes glow { 0%, 100% { text-shadow: 0 0 5px #6366f1; } 50% { text-shadow: 0 0 30px #6366f1; } }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes rubber { 0% { transform: scale3d(1,1,1); } 30% { transform: scale3d(1.25,.75,1); } 50% { transform: scale3d(1.15,.85,1); } 100% { transform: scale3d(1,1,1); } }
-        @keyframes skew { 0% { transform: skew(0deg); } 50% { transform: skew(30deg); } 100% { transform: skew(0deg); } }
         @keyframes rainbow { 0% { color: #ff0000; } 33% { color: #00ff00; } 66% { color: #0000ff; } 100% { color: #ff0000; } }
-        @keyframes blur { 0% { filter: blur(0); } 50% { filter: blur(8px); } 100% { filter: blur(0); } }
-        @keyframes slideUp { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); opacity: 0; } }
+        @keyframes rubber { 0% { transform: scale3d(1,1,1); } 30% { transform: scale3d(1.25,.75,1); } 50% { transform: scale3d(1.15,.85,1); } 100% { transform: scale3d(1,1,1); } }
+        @keyframes zoom { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.4); } }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes skew { 0% { transform: skew(0deg); } 50% { transform: skew(30deg); } 100% { transform: skew(0deg); } }
+        @keyframes glow { 0%, 100% { text-shadow: 0 0 5px #6366f1; } 50% { text-shadow: 0 0 30px #6366f1; } }
 
-        /* Global Animation Delay Logic (Stagger) */
-        .stagger-char span:nth-child(1) { animation-delay: 0.1s; }
-        .stagger-char span:nth-child(2) { animation-delay: 0.2s; }
-        .stagger-char span:nth-child(3) { animation-delay: 0.3s; }
-        .stagger-char span:nth-child(4) { animation-delay: 0.4s; }
-        .stagger-char span:nth-child(5) { animation-delay: 0.5s; }
-        .stagger-char span:nth-child(6) { animation-delay: 0.6s; }
+        /* Loop Effects (Play Automatically) */
+        .fx-rainbow span { animation: rainbow 3s infinite linear; }
+        .fx-bounce span { animation: bounce 1s infinite ease-in-out; }
+        .fx-zoom span { animation: zoom 1.5s infinite ease-in-out; }
+        .fx-glow span { animation: glow 2s infinite alternate; }
 
-        /* Trigger assignments */
-        .fx-bounce .char { animation: bounce 1s infinite; }
-        .fx-rainbow .char { animation: rainbow 3s infinite linear; }
-        .fx-zoom .char { animation: zoom 1.5s infinite; }
-        .fx-glow .char { animation: glow 1.5s infinite; }
-        
-        .trigger:hover .fx-flipX .char { animation: flipX 1s forwards; }
-        .trigger:hover .fx-wobble .char { animation: wobble 0.5s infinite; }
-        .trigger:hover .fx-jump .char { animation: jump 0.6s infinite; }
-        .trigger:hover .fx-rubber .char { animation: rubber 0.8s infinite; }
-        .trigger:hover .fx-spin .char { animation: spin 1s infinite linear; }
-        .trigger:hover .fx-skew .char { animation: skew 0.5s infinite; }
+        /* Trigger Effects (Play on Hover) */
+        .trigger-item span { animation-play-state: paused; }
+        .trigger-item:hover .fx-flipX span { animation: flipX 1s infinite linear; animation-play-state: running; }
+        .trigger-item:hover .fx-jump span { animation: jump 0.6s infinite ease-in-out; animation-play-state: running; }
+        .trigger-item:hover .fx-rubber span { animation: rubber 0.8s infinite; animation-play-state: running; }
+        .trigger-item:hover .fx-spin span { animation: spin 1s infinite linear; animation-play-state: running; }
+        .trigger-item:hover .fx-skew span { animation: skew 0.8s infinite alternate; animation-play-state: running; }
+
+        /* Letter Staggering (The "Forge" Signature) */
+        .forge-item span:nth-child(1) { animation-delay: 0.0s; }
+        .forge-item span:nth-child(2) { animation-delay: 0.1s; }
+        .forge-item span:nth-child(3) { animation-delay: 0.2s; }
+        .forge-item span:nth-child(4) { animation-delay: 0.3s; }
+        .forge-item span:nth-child(5) { animation-delay: 0.4s; }
     </style>
 </head>
 <body class="bg-slate-950">
@@ -81,40 +76,37 @@
         <section class="page">
             <nav class="absolute top-8 w-full px-12 flex justify-between items-center z-50">
                 <span class="font-black text-2xl italic tracking-tighter text-indigo-500">TEXT FORGE</span>
-                <button class="bg-indigo-600 text-white text-[10px] font-black py-2 px-6 rounded-full hover:bg-white hover:text-indigo-600 transition-all uppercase tracking-widest">Enter the Forge</button>
+                <span class="text-slate-500 text-[10px] uppercase tracking-widest border border-slate-800 px-4 py-1 rounded-full">Kinetic Showcase</span>
             </nav>
             <div class="text-center z-10">
                 <div class="mb-6 flex justify-center space-x-2 text-7xl md:text-9xl font-black italic tracking-tighter fx-glow">
-                    <span class="char" style="animation: bounce 2s infinite">T</span>
-                    <span class="char" style="animation: bounce 2s infinite 0.1s">E</span>
-                    <span class="char" style="animation: bounce 2s infinite 0.2s">X</span>
-                    <span class="char" style="animation: bounce 2s infinite 0.3s">T</span>
+                    <span>T</span><span>E</span><span>X</span><span>T</span>
                 </div>
                 <h1 class="text-4xl font-light tracking-[0.5em] text-slate-500 uppercase mb-10">Kinetic Archive</h1>
-                <p class="text-indigo-400 font-mono text-[10px] uppercase tracking-[0.4em]">A School Project by Liz Ducos</p>
+                <p class="text-indigo-400 font-mono text-[10px] uppercase tracking-[0.4em]">Prompt Engineering by Liz Ducos</p>
             </div>
         </section>
 
         <section class="page bg-slate-900/20">
             <div class="grid grid-cols-2 gap-x-32 gap-y-20">
-                <div class="forge-item drift-1 fx-rainbow stagger-char" style="font-family: 'Monoton'; font-size: 4rem;">
+                <div class="forge-item drift-1 fx-rainbow" style="font-family: 'Monoton'; font-size: 4rem;">
                     <div><span>C</span><span>O</span><span>L</span><span>O</span><span>R</span></div>
                     <span class="name-label">01. Rainbow Pulse</span>
                 </div>
                 
-                <div class="forge-item drift-2 trigger stagger-char" style="font-family: 'Orbitron'; font-size: 3rem;">
+                <div class="forge-item drift-2 trigger-item" style="font-family: 'Orbitron'; font-size: 3rem;">
                     <div class="hover-tag">Hover to Forge</div>
                     <div class="fx-flipX"><span>F</span><span>L</span><span>I</span><span>P</span></div>
                     <span class="name-label">02. 3D X-Axis</span>
                 </div>
 
-                <div class="forge-item drift-1 trigger stagger-char" style="font-family: 'Press Start 2P'; font-size: 2rem;">
+                <div class="forge-item drift-1 trigger-item" style="font-family: 'Press Start 2P'; font-size: 2rem;">
                     <div class="hover-tag">Hover to Forge</div>
                     <div class="fx-jump"><span>J</span><span>U</span><span>M</span><span>P</span></div>
                     <span class="name-label">03. Pixel Squish</span>
                 </div>
 
-                <div class="forge-item drift-2 fx-bounce stagger-char" style="font-family: 'Lobster'; font-size: 4rem;">
+                <div class="forge-item drift-2 fx-bounce" style="font-family: 'Lobster'; font-size: 4rem;">
                     <div><span>W</span><span>A</span><span>V</span><span>E</span></div>
                     <span class="name-label">04. Script Flow</span>
                 </div>
@@ -123,24 +115,24 @@
 
         <section class="page">
             <div class="grid grid-cols-2 gap-x-32 gap-y-20">
-                <div class="forge-item drift-1 trigger stagger-char" style="font-family: 'Bebas Neue'; font-size: 5rem;">
+                <div class="forge-item drift-1 trigger-item" style="font-family: 'Bebas Neue'; font-size: 5rem;">
                     <div class="hover-tag">Hover to Forge</div>
                     <div class="fx-rubber"><span>B</span><span>A</span><span>N</span><span>D</span></div>
                     <span class="name-label">05. Rubber Tension</span>
                 </div>
                 
-                <div class="forge-item drift-2 fx-zoom stagger-char" style="font-family: 'Righteous'; font-size: 4rem;">
+                <div class="forge-item drift-2 fx-zoom" style="font-family: 'Righteous'; font-size: 4rem;">
                     <div><span>P</span><span>U</span><span>L</span><span>S</span><span>E</span></div>
                     <span class="name-label">06. Kinetic Scale</span>
                 </div>
 
-                <div class="forge-item drift-1 trigger stagger-char" style="font-family: 'Monoton'; font-size: 3rem;">
+                <div class="forge-item drift-1 trigger-item" style="font-family: 'Monoton'; font-size: 3rem;">
                     <div class="hover-tag">Hover to Forge</div>
                     <div class="fx-spin"><span>S</span><span>P</span><span>I</span><span>N</span></div>
                     <span class="name-label">07. Vortex Center</span>
                 </div>
 
-                <div class="forge-item drift-2 trigger stagger-char" style="font-family: 'Inter'; font-size: 4rem; font-weight: 900;">
+                <div class="forge-item drift-2 trigger-item" style="font-family: 'Inter'; font-size: 4rem; font-weight: 900;">
                     <div class="hover-tag">Hover to Forge</div>
                     <div class="fx-skew"><span>S</span><span>K</span><span>E</span><span>W</span></div>
                     <span class="name-label">08. Drift Shear</span>
@@ -150,29 +142,8 @@
 
         <section class="page bg-black">
             <div class="max-w-4xl w-full text-center px-6 z-10">
-                <div class="mb-12">
-                    <h2 class="text-indigo-500 font-black text-xs tracking-[1em] uppercase mb-4">Project Engine</h2>
-                    <p class="text-slate-400 text-sm max-w-lg mx-auto leading-relaxed">
-                        Text Forge is an academic concept designed to bridge the gap between static typography and dynamic web interactions using pure CSS3.
-                    </p>
-                </div>
-                
-                <div class="flex flex-col md:flex-row gap-8 text-left justify-center mb-12">
-                    <div class="p-8 rounded-3xl border border-slate-800 bg-slate-900/30 flex-1">
-                        <h4 class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-4">The Architect</h4>
-                        <p class="text-[12px] text-slate-300"><b>Prompt Engineer:</b> Liz Ducos</p>
-                        <p class="text-[12px] text-slate-500">Academic Concept v1.0</p>
-                    </div>
-                    <div class="p-8 rounded-3xl border border-slate-800 bg-slate-900/30 flex-1">
-                        <h4 class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-4">Tech Specs</h4>
-                        <p class="text-[11px] text-slate-400 leading-snug">
-                            Built with TailwindCSS, Google Fonts API, and Keyframe Injection Logic. Zero heavy video assets.
-                        </p>
-                    </div>
-                </div>
-
-                <footer class="opacity-20 text-[9px] font-black tracking-[1.5em] uppercase border-t border-slate-900 pt-8">
-                    &copy; 2026 TEXT FORGE ARCHIVE // LIZ DUCOS
+                <footer class="opacity-30 text-[9px] font-black tracking-[1.5em] uppercase border-t border-slate-900 pt-8">
+                    LIZ DUCOS // SCHOOL PROJECT // 2026
                 </footer>
             </div>
         </section>
