@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Text Animator Pro - Typography Edition</title>
+    <title>Ultimate Text Animator Pro - Liz Ducos Edition</title>
     <link id="google-font-link" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Roboto:wght@100..900&family=Lobster&family=Pacifico&family=Bebas+Neue&family=Monoton&family=Press+Start+2P&family=Righteous&family=Abril+Fatface&family=Comfortaa:wght@300..700&family=Permanent+Marker&family=Playfair+Display:wght@400..900&family=Montserrat:wght@100..900&family=Oswald:wght@200..700&family=Syncopate:wght@400;700&family=Caveat:wght@400..700&family=Orbitron:wght@400..900&family=Cinzel:wght@400..900&family=Anton&family=Satisfy&family=Fredoka+One&display=swap">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gifshot/0.4.5/gifshot.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/build/gifshot.min.js"></script>
     
     <style>
         :root {
@@ -50,6 +51,7 @@
         button { width: 100%; padding: 12px; cursor: pointer; border-radius: 6px; font-weight: 600; border: none; transition: 0.2s; }
         .btn-png { background: var(--accent); color: white; }
         .btn-gif { background: var(--success); color: white; }
+        .btn-gif:disabled { background: #333; color: #666; cursor: not-allowed; }
         .btn-copy { background: #444; color: white; margin-top: 10px; font-size: 0.8rem; }
 
         #text-wrap { display: flex; flex-wrap: wrap; justify-content: center; width: 100%; }
@@ -58,7 +60,7 @@
         .panel-header { display: flex; justify-content: space-between; align-items: center; padding-right: 15px; }
         textarea { flex: 1; background: #0f0f0f; color: #75beff; border: none; padding: 15px; font-family: monospace; font-size: 11px; resize: none; }
 
-        /* Animations (20 Motions) */
+        /* Animations */
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
         @keyframes wave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(15deg); } }
         @keyframes flipX { 0% { transform: rotateX(0); } 100% { transform: rotateX(360deg); } }
@@ -107,11 +109,11 @@
 <div class="sidebar">
     <div class="controls">
         <h3>Text</h3>
-        <input type="text" id="text-input" placeholder="Edit text here..." value="INTER TYPE">
+        <input type="text" id="text-input" placeholder="Edit text here..." value="GIF READY">
 
         <h3>Typography</h3>
         <div class="control-group">
-            <label>Font Family (20+)</label>
+            <label>Font Family</label>
             <select id="font-select">
                 <option value="Inter">Inter</option>
                 <option value="Roboto">Roboto</option>
@@ -122,8 +124,6 @@
                 <option value="Lobster">Lobster</option>
                 <option value="Pacifico">Pacifico</option>
                 <option value="Orbitron">Orbitron</option>
-                <option value="Syncopate">Syncopate</option>
-                <option value="Cinzel">Cinzel</option>
                 <option value="Anton">Anton</option>
                 <option value="Satisfy">Satisfy</option>
                 <option value="Fredoka One">Fredoka One</option>
@@ -301,21 +301,33 @@
     }
 
     function exportGIF() {
+        // Safety check to ensure library is loaded
+        if (typeof gifshot === 'undefined') {
+            alert("GIF library is still loading. Please wait a moment and try again.");
+            return;
+        }
+
         const btn = document.getElementById('gif-btn');
         btn.innerText = "Capturing...";
         btn.disabled = true;
+
         gifshot.createGIF({
             gifWidth: 800,
             gifHeight: 400,
             htmlElement: document.getElementById('capture-zone'),
-            numFrames: 15,
-            frameDuration: 1
+            numFrames: 20,
+            frameDuration: 1,
+            sampleInterval: 10,
+            fontWeight: document.getElementById('font-weight').value
         }, function(obj) {
             if(!obj.error) {
                 const link = document.createElement('a');
                 link.download = 'animation.gif';
                 link.href = obj.image;
                 link.click();
+            } else {
+                console.error("Gifshot Error:", obj.error);
+                alert("Could not generate GIF. Check console for details.");
             }
             btn.innerText = "Generate GIF";
             btn.disabled = false;
