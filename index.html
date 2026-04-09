@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Text Animator & Embedder</title>
+    <style>
+        :root {
+            --bg: #f0f2f5;
+            --panel: #ffffff;
+            --accent: #6366f1;
+            --code-bg: #1e1e1e;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            background: var(--bg);
+            color: #333;
+        }
+
+        /* Layout */
+        .controls {
+            width: 320px;
+            padding: 25px;
+            background: var(--panel);
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+        }
+
+        .preview-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            background: radial-gradient(circle, #ffffff 0%, #e5e7eb 100%);
+        }
+
+        .code-panels {
+            width: 450px;
+            display: flex;
+            flex-direction: column;
+            background: var(--code-bg);
+            border-left: 1px solid #333;
+        }
+
+        .code-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        .code-section h3 {
+            color: #888;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin: 0 0 10px 0;
+            letter-spacing: 1px;
+        }
+
+        textarea {
+            flex: 1;
+            background: #2d2d2d;
+            color: #9cdcfe;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            resize: none;
+        }
+
+        /* UI Elements */
+        .control-group { margin-bottom: 18px; }
+        label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; color: #555; }
+        input[type="text"], input[type="number"], select {
+            width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box;
+        }
+        .flex { display: flex; gap: 8px; }
+
+        /* Preview Rendering */
+        #text-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            line-height: 1.2;
+        }
+
+        .char { display: inline-block; white-space: pre; }
+
+        /* Keyframes */
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-25px); } }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+        .animate-bounce { animation: bounce 1s infinite; }
+        .animate-rotate { animation: rotate 2s infinite linear; }
+        .animate-pulse { animation: pulse 1.5s infinite; }
+    </style>
+</head>
+<body>
+
+<div class="controls">
+    <h2 style="margin-top:0">Text Stylist</h2>
+    
+    <div class="control-group">
+        <label>Content</label>
+        <input type="text" id="text-input" value="Bouncy Text">
+    </div>
+
+    <div class="control-group">
+        <label>Size (px)</label>
+        <input type="number" id="global-size" value="60">
+    </div>
+
+    <div class="control-group">
+        <label>Color</label>
+        <input type="color" id="global-color" value="#4f46e5">
+    </div>
+
+    <div class="control-group">
+        <label>Stroke Width & Color</label>
+        <div class="flex">
+            <input type="number" id="stroke-width" value="0" min="0">
+            <input type="color" id="stroke-color" value="#000000">
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label>Animation</label>
+        <select id="animation-select">
+            <option value="">None</option>
+            <option value="animate-bounce">Bounce</option>
+            <option value="animate-rotate">Rotate</option>
+            <option value="animate-pulse">Pulse</option>
+        </select>
+    </div>
+</div>
+
+<div class="preview-area">
+    <div id="text-container"></div>
+</div>
+
+<div class="code-panels">
+    <div class="code-section">
+        <h3>Live Element Code</h3>
+        <textarea id="element-code" readonly></textarea>
+    </div>
+    <div class="code-section">
+        <h3>Embed Code (Ready to Use)</h3>
+        <textarea id="embed-code" readonly></textarea>
+    </div>
+</div>
+
+<script>
+    const inputs = ['text-input', 'global-size', 'global-color', 'stroke-width', 'stroke-color', 'animation-select'];
+    const container = document.getElementById('text-container');
+    const elementArea = document.getElementById('element-code');
+    const embedArea = document.getElementById('embed-code');
+
+    function update() {
+        const text = document.getElementById('text-input').value;
+        const size = document.getElementById('global-size').value + 'px';
+        const color = document.getElementById('global-color').value;
+        const sWidth = document.getElementById('stroke-width').value + 'px';
+        const sColor = document.getElementById('stroke-color').value;
+        const anim = document.getElementById('animation-select').value;
+
+        container.innerHTML = '';
+        let spansHtml = '';
+
+        text.split('').forEach((char, i) => {
+            const charDisplay = char === ' ' ? '&nbsp;' : char;
+            const style = `color:${color}; font-size:${size}; -webkit-text-stroke:${sWidth} ${sColor}; animation-delay:${i * 0.1}s;`;
+            
+            const span = document.createElement('span');
+            span.className = `char ${anim}`;
+            span.style.cssText = style;
+            span.innerHTML = charDisplay;
+            container.appendChild(span);
+
+            spansHtml += `<span class="char ${anim}" style="${style}">${charDisplay}</span>`;
+        });
+
+        // Update Element Code
+        elementArea.value = `<div class="text-wrapper">\n  ${spansHtml}\n</div>`;
+
+        // Update Embed Code
+        const animCSS = getAnimCSS(anim);
+        embedArea.value = `<style>
+  .text-wrapper { display: flex; flex-wrap: wrap; justify-content: center; }
+  .char { display: inline-block; transition: all 0.3s; }
+  ${animCSS}
+</style>
+
+<div class="text-wrapper">
+  ${spansHtml}
+</div>`;
+    }
+
+    function getAnimCSS(name) {
+        if (!name) return '';
+        const keyframes = {
+            'animate-bounce': '@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-25px); } }',
+            'animate-rotate': '@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }',
+            'animate-pulse': '@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }'
+        };
+        return `${keyframes[name]}\n  .${name} { animation: ${name.split('-')[1]} 1.5s infinite; }`;
+    }
+
+    inputs.forEach(id => document.getElementById(id).addEventListener('input', update));
+    update();
+</script>
+
+</body>
+</html>
