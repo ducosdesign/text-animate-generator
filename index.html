@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Text Animator & GIF Exporter</title>
+    <title>Ultimate Text Animator Pro</title>
     <link id="google-font-link" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&family=Lobster&family=Pacifico&family=Bebas+Neue&family=Monoton&family=Press+Start+2P&family=Righteous&family=Abril+Fatface&family=Comfortaa&family=Permanent+Marker&display=swap">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gifshot/0.4.5/gifshot.min.js"></script>
@@ -12,13 +12,13 @@
         :root {
             --bg: #121212;
             --sidebar: #1e1e1e;
-            --panel: #252526;
             --accent: #6366f1;
             --text: #e0e0e0;
+            --success: #10b981;
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
             display: flex;
             height: 100vh;
@@ -27,106 +27,50 @@
             overflow: hidden;
         }
 
-        /* Layout */
-        .sidebar {
-            width: 320px;
-            background: var(--sidebar);
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid #333;
-        }
+        .sidebar { width: 320px; background: var(--sidebar); display: flex; flex-direction: column; border-right: 1px solid #333; }
+        .controls { flex-grow: 1; padding: 20px; overflow-y: auto; }
+        .instructions { padding: 15px 20px; font-size: 0.75rem; background: #161616; border-top: 1px solid #333; color: #777; }
 
-        .controls {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
+        .preview-area { flex-grow: 1; display: flex; align-items: center; justify-content: center; background-color: #ffffff; position: relative; }
+        .code-panels { width: 400px; background: var(--sidebar); border-left: 1px solid #333; display: flex; flex-direction: column; }
 
-        .instructions {
-            padding: 15px 20px;
-            font-size: 0.75rem;
-            background: #161616;
-            border-top: 1px solid #333;
-            color: #777;
-            line-height: 1.4;
-        }
-
-        .preview-area {
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #ffffff;
-            position: relative;
-        }
-
-        .code-panels {
-            width: 380px;
-            background: var(--sidebar);
-            border-left: 1px solid #333;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* UI Elements */
         h3 { font-size: 0.7rem; margin: 20px 0 10px 0; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; }
-        .control-group { margin-bottom: 15px; }
+        .control-group { margin-bottom: 12px; }
         label { display: block; font-size: 0.7rem; margin-bottom: 6px; color: #999; }
         
-        input[type="text"], input[type="number"], select {
-            width: 100%; padding: 10px; background: #2a2a2a; border: 1px solid #444; color: #fff; border-radius: 6px;
-        }
+        input, select { width: 100%; padding: 10px; background: #2a2a2a; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box; }
 
-        .color-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #2a2a2a;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #444;
-        }
-
-        input[type="color"] {
-            -webkit-appearance: none; border: none; width: 24px; height: 24px; cursor: pointer; background: none;
-        }
+        .color-row { display: flex; align-items: center; justify-content: space-between; background: #2a2a2a; padding: 6px 10px; border-radius: 6px; border: 1px solid #444; }
+        input[type="color"] { -webkit-appearance: none; border: none; width: 28px; height: 28px; cursor: pointer; background: none; }
         input[type="color"]::-webkit-color-swatch { border: 1px solid #666; border-radius: 50%; }
 
         .btn-stack { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
-        button {
-            width: 100%; padding: 12px; cursor: pointer; border-radius: 6px; font-weight: 600; border: none; transition: 0.2s;
-        }
+        button { width: 100%; padding: 12px; cursor: pointer; border-radius: 6px; font-weight: 600; border: none; transition: 0.2s; }
         .btn-png { background: var(--accent); color: white; }
-        .btn-gif { background: #10b981; color: white; }
+        .btn-gif { background: var(--success); color: white; }
+        .btn-copy { background: #444; color: white; margin-top: 10px; font-size: 0.8rem; }
+        .btn-copy:hover { background: #555; }
 
-        /* Animation Keyframes Library */
+        #text-wrap { display: flex; flex-wrap: wrap; justify-content: center; width: 100%; }
+        .char { display: inline-block; white-space: pre; }
+
+        .panel-header { display: flex; justify-content: space-between; align-items: center; padding-right: 15px; }
+        textarea { flex: 1; background: #0f0f0f; color: #75beff; border: none; padding: 15px; font-family: monospace; font-size: 11px; resize: none; }
+
+        /* Animations */
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
         @keyframes wave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(15deg); } }
         @keyframes flip { 0% { transform: rotateX(0); } 100% { transform: rotateX(360deg); } }
         @keyframes zoom { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }
-        @keyframes rainbow { 0% { color: #ff0000; } 25% { color: #00ff00; } 50% { color: #0000ff; } 100% { color: #ff0000; } }
         @keyframes wobble { 0% { transform: translateX(0); } 25% { transform: translateX(-5px) rotate(-5deg); } 75% { transform: translateX(5px) rotate(5deg); } }
-        @keyframes skew { 0%, 100% { transform: skew(0deg); } 50% { transform: skew(20deg, 10deg); } }
-        @keyframes blurIn { 0% { filter: blur(10px); opacity: 0; } 100% { filter: blur(0); opacity: 1; } }
         @keyframes jump { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.2, 0.8); } }
 
         .anim-bounce { animation: bounce 1s infinite; }
         .anim-wave { animation: wave 1s infinite; }
         .anim-flip { animation: flip 2s infinite linear; }
         .anim-zoom { animation: zoom 1.5s infinite; }
-        .anim-rainbow { animation: rainbow 3s infinite linear; }
         .anim-wobble { animation: wobble 0.8s infinite; }
-        .anim-skew { animation: skew 1.5s infinite; }
-        .anim-blur { animation: blurIn 2s infinite alternate; }
         .anim-jump { animation: jump 0.6s infinite; }
-
-        #text-wrap { display: flex; flex-wrap: wrap; justify-content: center; width: 100%; }
-        .char { display: inline-block; white-space: pre; }
-
-        textarea {
-            flex: 1; background: #0f0f0f; color: #75beff; border: none; padding: 15px;
-            font-family: 'Fira Code', monospace; font-size: 11px; resize: none;
-        }
     </style>
 </head>
 <body>
@@ -134,53 +78,29 @@
 <div class="sidebar">
     <div class="controls">
         <h3>Text</h3>
-        <input type="text" id="text-input" value="MOTION">
+        <input type="text" id="text-input" value="COPY ME">
 
         <h3>Typography</h3>
         <div class="control-group">
-            <label>Font Family</label>
+            <label>Font</label>
             <select id="font-select">
                 <option value="Roboto">Roboto</option>
                 <option value="Lobster">Lobster</option>
                 <option value="Pacifico">Pacifico</option>
                 <option value="Bebas Neue">Bebas Neue</option>
-                <option value="Monoton">Monoton</option>
-                <option value="Press Start 2P">Retro Pixel</option>
+                <option value="Press Start 2P">Pixel</option>
                 <option value="Righteous">Righteous</option>
-                <option value="Abril Fatface">Elegant</option>
-                <option value="Permanent Marker">Marker</option>
             </select>
         </div>
-        <div class="flex" style="display:flex; gap:10px;">
-            <div class="control-group">
-                <label>Size</label>
-                <input type="number" id="font-size" value="70">
-            </div>
-            <div class="control-group">
-                <label>Spacing</label>
-                <input type="number" id="letter-spacing" value="5" step="1">
-            </div>
+        <div style="display:flex; gap:10px;">
+            <div class="control-group"><label>Size</label><input type="number" id="font-size" value="70"></div>
+            <div class="control-group"><label>Spacing</label><input type="number" id="letter-spacing" value="5"></div>
         </div>
-        <div class="control-group">
-            <label>Line Height</label>
-            <input type="number" id="line-height" value="1.2" step="0.1">
-        </div>
+        <div class="control-group"><label>Line Height</label><input type="number" id="line-height" value="1.2" step="0.1"></div>
 
-        <h3>Design</h3>
-        <div class="control-group">
-            <label>Text Color</label>
-            <div class="color-row">
-                <input type="color" id="text-color" value="#6366f1">
-                <span id="text-hex">#6366F1</span>
-            </div>
-        </div>
-        <div class="control-group">
-            <label>Canvas Color</label>
-            <div class="color-row">
-                <input type="color" id="canvas-color" value="#ffffff">
-                <span id="canvas-hex">#FFFFFF</span>
-            </div>
-        </div>
+        <h3>Colors</h3>
+        <div class="control-group"><label>Text</label><div class="color-row"><input type="color" id="text-color" value="#6366f1"> <span id="text-hex">#6366F1</span></div></div>
+        <div class="control-group"><label>Canvas</label><div class="color-row"><input type="color" id="canvas-color" value="#ffffff"> <span id="canvas-hex">#FFFFFF</span></div></div>
 
         <h3>Motion</h3>
         <select id="anim-select">
@@ -188,12 +108,9 @@
             <option value="anim-bounce">Bounce</option>
             <option value="anim-wave">Wave</option>
             <option value="anim-flip">Flip 3D</option>
-            <option value="anim-zoom">Pulse Zoom</option>
-            <option value="anim-rainbow">Rainbow Fade</option>
+            <option value="anim-zoom">Pulse</option>
             <option value="anim-wobble">Wobble</option>
-            <option value="anim-skew">Skew Drift</option>
-            <option value="anim-blur">Blur In/Out</option>
-            <option value="anim-jump">Squish Jump</option>
+            <option value="anim-jump">Jump</option>
         </select>
 
         <div class="btn-stack">
@@ -201,10 +118,8 @@
             <button class="btn-gif" id="gif-btn" onclick="exportGIF()">Generate GIF</button>
         </div>
     </div>
-
     <div class="instructions">
-        <strong>Tools:</strong> Adjust typography and spacing. Letter spacing adds gaps between characters, while line height affects vertical flow. <br><br>
-        <strong>GIF:</strong> Generation takes ~5 seconds as it captures animation frames.
+        <strong>Manual:</strong> The Embed Code includes the CSS Keyframes. To use on your site, paste the full snippet into an HTML block.
     </div>
 </div>
 
@@ -214,20 +129,32 @@
 
 <div class="code-panels">
     <div style="height: 100%; display: flex; flex-direction: column; padding: 15px;">
-        <h3>Embed Snippet</h3>
+        <div class="panel-header">
+            <h3>Embed Code</h3>
+            <button class="btn-copy" onclick="copyCode()">Copy Code</button>
+        </div>
         <textarea id="embed-code" readonly></textarea>
     </div>
 </div>
 
 <script>
-    const controls = ['text-input', 'font-select', 'font-size', 'letter-spacing', 'line-height', 'text-color', 'canvas-color', 'anim-select'];
+    const inputs = ['text-input', 'font-select', 'font-size', 'letter-spacing', 'line-height', 'text-color', 'canvas-color', 'anim-select'];
+
+    const keyframeLibrary = {
+        'anim-bounce': '@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }',
+        'anim-wave': '@keyframes wave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(15deg); } }',
+        'anim-flip': '@keyframes flip { 0% { transform: rotateX(0); } 100% { transform: rotateX(360deg); } }',
+        'anim-zoom': '@keyframes zoom { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }',
+        'anim-wobble': '@keyframes wobble { 0% { transform: translateX(0); } 25% { transform: translateX(-5px) rotate(-5deg); } 75% { transform: translateX(5px) rotate(5deg); } }',
+        'anim-jump': '@keyframes jump { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.2, 0.8); } }'
+    };
 
     function update() {
         const text = document.getElementById('text-input').value;
         const font = document.getElementById('font-select').value;
         const size = document.getElementById('font-size').value + 'px';
         const spacing = document.getElementById('letter-spacing').value + 'px';
-        const lineHeight = document.getElementById('line-height').value;
+        const lh = document.getElementById('line-height').value;
         const color = document.getElementById('text-color').value;
         const canvas = document.getElementById('canvas-color').value;
         const anim = document.getElementById('anim-select').value;
@@ -242,41 +169,57 @@
 
         text.split('').forEach((char, i) => {
             const display = char === ' ' ? '&nbsp;' : char;
-            const style = `color:${color}; font-size:${size}; font-family:'${font}', sans-serif; letter-spacing:${spacing}; line-height:${lineHeight}; animation-delay:${i * 0.1}s;`;
+            const style = `color:${color}; font-size:${size}; font-family:'${font}', sans-serif; letter-spacing:${spacing}; line-height:${lh}; animation-delay:${i * 0.1}s;`;
             
             const span = document.createElement('span');
             span.className = `char ${anim}`;
             span.style.cssText = style;
             span.innerHTML = display;
             container.appendChild(span);
-            snippet += `<span class="char ${anim}" style="${style}">${display}</span>`;
+            snippet += `  <span class="char ${anim}" style="${style}">${display}</span>\n`;
         });
 
-        document.getElementById('embed-code').value = `<div style="display:flex; flex-wrap:wrap; justify-content:center;">\n  ${snippet}\n</div>`;
+        const activeKeyframes = keyframeLibrary[anim] || '';
+        const fullEmbed = `<style>
+  @import url('https://fonts.googleapis.com/css2?family=${font.replace(/ /g, '+')}');
+  .char { display: inline-block; white-space: pre; }
+  .${anim} { animation: ${anim.replace('anim-', '')} 1s infinite; }
+  ${activeKeyframes}
+</style>
+
+<div style="display:flex; flex-wrap:wrap; justify-content:center;">
+${snippet}</div>`;
+
+        document.getElementById('embed-code').value = fullEmbed;
+    }
+
+    function copyCode() {
+        const copyText = document.getElementById("embed-code");
+        copyText.select();
+        document.execCommand("copy");
+        const btn = document.querySelector('.btn-copy');
+        btn.innerText = "Copied!";
+        setTimeout(() => btn.innerText = "Copy Code", 2000);
     }
 
     async function exportPNG() {
         const canvas = await html2canvas(document.getElementById('capture-zone'));
         const link = document.createElement('a');
-        link.download = 'design.png';
+        link.download = 'text-design.png';
         link.href = canvas.toDataURL();
         link.click();
     }
 
     function exportGIF() {
         const btn = document.getElementById('gif-btn');
-        btn.innerText = "Processing...";
+        btn.innerText = "Capturing...";
         btn.disabled = true;
-
         gifshot.createGIF({
             gifWidth: 800,
             gifHeight: 400,
-            video: false,
-            images: [], // We use the element capture instead
             htmlElement: document.getElementById('capture-zone'),
-            numFrames: 20,
-            frameDuration: 1,
-            sampleInterval: 10
+            numFrames: 15,
+            frameDuration: 1
         }, function(obj) {
             if(!obj.error) {
                 const link = document.createElement('a');
@@ -289,7 +232,7 @@
         });
     }
 
-    controls.forEach(id => document.getElementById(id).addEventListener('input', update));
+    inputs.forEach(id => document.getElementById(id).addEventListener('input', update));
     update();
 </script>
 
