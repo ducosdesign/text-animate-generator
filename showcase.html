@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text Forge | 20 Kinetic Layers</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Bebas+Neue&family=Monoton&family=Press+Start+2P&family=Righteous&family=Lobster&family=Abril+Fatface&family=Pacifico&family=Syncopate:wght@700&family=Permanent+Marker&family=Anton&family=Fredoka+One&family=Orbitron:wght@900&family=Comfortaa:wght@700&family=Satisfy&family=Cinzel:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=Bebas+Neue&family=Monoton&family=Press+Start+2P&family=Righteous&family=Lobster&family=Abril+Fatface&family=Pacifico&family=Syncopate:wght@700&family=Permanent+Marker&family=Anton&family=Fredoka+One&family=Orbitron:wght@900&family=Comfortaa:wght@700&family=Satisfy&family=Cinzel:wght@900&family=Bangers&family=Alumni+Sans+Inline+One&display=swap" rel="stylesheet">
     <style>
         html { scroll-behavior: smooth; }
         body { background-color: #020617; color: #f8fafc; margin: 0; overflow: hidden; font-family: 'Inter', sans-serif; }
@@ -18,14 +18,17 @@
         .stars { position: absolute; inset: 0; background-image: radial-gradient(circle at center, #ffffff 1px, transparent 1px); background-size: 80px 80px; opacity: 0.15; animation: star-drift 120s linear infinite; }
         @keyframes star-drift { from { transform: translateY(0); } to { transform: translateY(-1000px); } }
 
-        .forge-grid { display: grid; grid-template-cols: repeat(2, 1fr); gap: 4rem; max-width: 1000px; width: 100%; padding: 20px; z-index: 10; }
+        .forge-grid { display: grid; grid-template-cols: repeat(2, 1fr); gap: 5rem; max-width: 1000px; width: 100%; padding: 20px; z-index: 10; }
         .forge-item { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .forge-item span { display: inline-block; white-space: pre; }
         
         .hover-tag { position: absolute; top: -15px; background: #6366f1; color: #fff; font-size: 7px; font-weight: 900; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; white-space: nowrap; box-shadow: 0 0 15px rgba(99,102,241,0.4); }
-        .try-btn { position: absolute; bottom: -25px; background: #fff; color: #000; font-size: 7px; font-weight: 900; padding: 4px 12px; border-radius: 100px; text-transform: uppercase; opacity: 0; transition: 0.3s; transform: translateY(10px); }
-        .forge-item:hover .try-btn { opacity: 1; transform: translateY(0); }
-        .name-label { margin-top: 35px; color: #64748b; font-family: monospace; font-size: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3em; }
+        .name-label { margin-top: 35px; color: #64748b; font-family: monospace; font-size: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3em; white-space: nowrap; }
+
+        /* Floating Drifts */
+        .drift-1 { animation: float-drift 6s infinite ease-in-out; }
+        .drift-2 { animation: float-drift 8s infinite ease-in-out reverse; }
+        @keyframes float-drift { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(5px, -15px); } }
 
         /* Stagger Logic */
         .forge-item span:nth-child(1) { animation-delay: 0.0s; }
@@ -53,14 +56,14 @@
         @keyframes f-echo { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.6); opacity: 0; filter: blur(5px); } }
         @keyframes f-scan { 0% { clip-path: inset(0 0 95% 0); } 50% { clip-path: inset(95% 0 0 0); } 100% { clip-path: inset(0 0 95% 0); } }
         @keyframes f-spin3d { from { transform: rotate3d(1, 1, 0, 0deg); } to { transform: rotate3d(1, 1, 0, 360deg); } }
-        @keyframes f-strobe { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(3); } }
+        @keyframes f-strobe { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(4); } }
         @keyframes f-skew { 0% { transform: skew(0deg); } 50% { transform: skew(25deg); } 100% { transform: skew(0deg); } }
         @keyframes f-wobble { 0% { transform: translateX(0); } 25% { transform: rotate(-5deg); } 75% { transform: rotate(5deg); } }
-        @keyframes f-blur { 0% { filter: blur(0px); } 50% { filter: blur(6px); } 100% { filter: blur(0px); } }
+        @keyframes f-blur { 0% { filter: blur(0px); } 50% { filter: blur(8px); } 100% { filter: blur(0px); } }
         @keyframes f-liquid { 0%, 100% { border-radius: 50%; } 50% { border-radius: 30% 70% 70% 30%; } }
-        @keyframes f-pulse-red { 0%, 100% { transform: scale(1); color: inherit; } 50% { transform: scale(1.1); color: #ef4444; } }
+        @keyframes f-pulse-red { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); color: #ef4444; } }
 
-        /* Class Assignments */
+        /* Logic Linkage */
         .fx-1 span { animation: f-rainbow 3s infinite linear; }
         .fx-2 span { animation: f-vortex 1.5s forwards; }
         .fx-3 span { animation: f-flipX 1.5s infinite linear; }
@@ -91,7 +94,7 @@
         <section class="page">
             <nav class="absolute top-8 w-full px-12 flex justify-between items-center z-50">
                 <span class="font-black text-2xl italic tracking-tighter text-indigo-500">TEXT FORGE</span>
-                <a href="https://text-animate-generator.vercel.app/" target="_blank" class="bg-indigo-600 text-white text-[10px] font-black py-2 px-6 rounded-full hover:bg-white hover:text-indigo-600 transition-all uppercase tracking-widest">Open Generator →</a>
+                <a href="https://text-animate-generator.vercel.app/" target="_blank" class="bg-indigo-600 text-white text-[10px] font-black py-2 px-8 rounded-full hover:bg-white hover:text-indigo-600 transition-all uppercase tracking-widest shadow-lg shadow-indigo-500/20">Try Text Forge →</a>
             </nav>
             <div class="text-center z-10">
                 <div class="mb-6 flex justify-center space-x-2 text-7xl md:text-9xl font-black italic tracking-tighter fx-7">
@@ -102,88 +105,48 @@
             </div>
         </section>
 
-        <section class="page bg-slate-900/20">
+        <section class="page bg-slate-900/10">
             <div class="forge-grid">
-                <div class="forge-item drift-1 fx-1" style="font-family: 'Monoton'; font-size: 3.5rem;">
-                    <div><span>H</span><span>U</span><span>E</span></div><span class="name-label">01. Rainbow Loop</span>
-                </div>
-                <div class="forge-item drift-2 trigger-item fx-2" style="font-family: 'Orbitron'; font-size: 3rem;">
-                    <div class="hover-tag">Hover</div><div><span>V</span><span>A</span><span>N</span><span>I</span><span>S</span><span>H</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">02. Vortex</span>
-                </div>
-                <div class="forge-item drift-3 trigger-item fx-3" style="font-family: 'Bebas Neue'; font-size: 4.5rem;">
-                    <div class="hover-tag">Hover</div><div><span>F</span><span>L</span><span>I</span><span>P</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">03. 3D X-Axis</span>
-                </div>
-                <div class="forge-item drift-1 fx-4" style="font-family: 'Satisfy'; font-size: 4rem;">
-                    <div><span>W</span><span>a</span><span>v</span><span>e</span></div><span class="name-label">04. Script Bounce</span>
-                </div>
-            </div>
-        </section>
-
-        <section class="page">
-            <div class="forge-grid">
-                <div class="forge-item drift-1 trigger-item fx-5" style="font-family: 'Press Start 2P'; font-size: 1.8rem;">
-                    <div class="hover-tag">Hover</div><div><span>G</span><span>L</span><span>I</span><span>T</span><span>C</span><span>H</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">05. Cyber Glitch</span>
-                </div>
-                <div class="forge-item drift-3 fx-6" style="font-family: 'Fredoka One'; font-size: 4rem;">
-                    <div><span>J</span><span>e</span><span>l</span><span>l</span><span>o</span></div><span class="name-label">06. Wobble</span>
-                </div>
-                <div class="forge-item drift-2 fx-7" style="font-family: 'Monoton'; font-size: 3rem;">
-                    <div><span>G</span><span>L</span><span>O</span><span>W</span></div><span class="name-label">07. Neon Burn</span>
-                </div>
-                <div class="forge-item drift-1 trigger-item fx-8" style="font-family: 'Anton'; font-size: 5rem;">
-                    <div class="hover-tag">Hover</div><div><span>F</span><span>L</span><span>E</span><span>X</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">08. Rubber Band</span>
-                </div>
+                <div class="forge-item drift-1 fx-1" style="font-family: 'Monoton'; font-size: 3.5rem;"><div><span>H</span><span>U</span><span>E</span></div><span class="name-label">01. Rainbow Loop</span></div>
+                <div class="forge-item drift-2 trigger-item fx-2" style="font-family: 'Orbitron'; font-size: 3rem;"><div class="hover-tag">Hover</div><div><span>V</span><span>A</span><span>N</span><span>I</span><span>S</span><span>H</span></div><span class="name-label">02. Vortex Vanish</span></div>
+                <div class="forge-item drift-1 trigger-item fx-3" style="font-family: 'Bebas Neue'; font-size: 5rem;"><div class="hover-tag">Hover</div><div><span>F</span><span>L</span><span>I</span><span>P</span></div><span class="name-label">03. 3D X-Axis</span></div>
+                <div class="forge-item drift-2 fx-4" style="font-family: 'Satisfy'; font-size: 4rem;"><div><span>B</span><span>o</span><span>u</span><span>n</span><span>c</span><span>e</span></div><span class="name-label">04. Script Wave</span></div>
             </div>
         </section>
 
         <section class="page bg-slate-900/20">
             <div class="forge-grid">
-                <div class="forge-item drift-2 fx-9" style="font-family: 'Righteous'; font-size: 4rem;">
-                    <div><span>Z</span><span>O</span><span>O</span><span>M</span></div><span class="name-label">09. Pulse In/Out</span>
-                </div>
-                <div class="forge-item drift-1 trigger-item fx-10" style="font-family: 'Cinzel'; font-size: 3.5rem;">
-                    <div class="hover-tag">Hover</div><div><span>H</span><span>I</span><span>T</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">10. Strobe</span>
-                </div>
-                <div class="forge-item drift-3 trigger-item fx-11" style="font-family: 'Permanent Marker'; font-size: 4rem;">
-                    <div class="hover-tag">Hover</div><div><span>V</span><span>I</span><span>B</span><span>E</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">11. Shake</span>
-                </div>
-                <div class="forge-item drift-2 trigger-item fx-12" style="font-family: 'Inter'; font-size: 4rem; font-weight: 900;">
-                    <div class="hover-tag">Hover</div><div><span>E</span><span>C</span><span>H</span><span>O</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">12. Prism</span>
-                </div>
+                <div class="forge-item drift-2 trigger-item fx-5" style="font-family: 'Press Start 2P'; font-size: 1.8rem;"><div class="hover-tag">Hover</div><div><span>G</span><span>L</span><span>I</span><span>T</span><span>C</span><span>H</span></div><span class="name-label">05. Cyber Glitch</span></div>
+                <div class="forge-item drift-1 fx-6" style="font-family: 'Fredoka One'; font-size: 4.5rem;"><div><span>J</span><span>e</span><span>l</span><span>l</span><span>o</span></div><span class="name-label">06. Jello Wobble</span></div>
+                <div class="forge-item drift-2 fx-7" style="font-family: 'Monoton'; font-size: 3.2rem;"><div><span>G</span><span>L</span><span>O</span><span>W</span></div><span class="name-label">07. Neon Burn</span></div>
+                <div class="forge-item drift-1 trigger-item fx-8" style="font-family: 'Anton'; font-size: 5rem;"><div class="hover-tag">Hover</div><div><span>F</span><span>L</span><span>E</span><span>X</span></div><span class="name-label">08. Rubber Band</span></div>
             </div>
         </section>
 
-        <section class="page">
+        <section class="page bg-slate-900/10">
             <div class="forge-grid">
-                <div class="forge-item drift-1 trigger-item fx-13" style="font-family: 'Syncopate'; font-size: 3rem;">
-                    <div class="hover-tag">Hover</div><div><span>S</span><span>C</span><span>A</span><span>N</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">13. Neural Scan</span>
-                </div>
-                <div class="forge-item drift-3 trigger-item fx-14" style="font-family: 'Orbitron'; font-size: 3.5rem;">
-                    <div class="hover-tag">Hover</div><div><span>B</span><span>O</span><span>L</span><span>T</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">14. Electric</span>
-                </div>
-                <div class="forge-item drift-2 fx-15" style="font-family: 'Anton'; font-size: 4.5rem;">
-                    <div><span>A</span><span>L</span><span>E</span><span>R</span><span>T</span></div><span class="name-label">15. Danger</span>
-                </div>
-                <div class="forge-item drift-1 trigger-item fx-16" style="font-family: 'Cinzel'; font-size: 3.5rem;">
-                    <div class="hover-tag">Hover</div><div><span>3</span><span>D</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">16. Orbit</span>
-                </div>
+                <div class="forge-item drift-1 fx-9" style="font-family: 'Righteous'; font-size: 4.5rem;"><div><span>Z</span><span>O</span><span>O</span><span>M</span></div><span class="name-label">09. Kinetic Pulse</span></div>
+                <div class="forge-item drift-2 trigger-item fx-10" style="font-family: 'Syncopate'; font-size: 3rem;"><div class="hover-tag">Hover</div><div><span>H</span><span>I</span><span>T</span></div><span class="name-label">10. Strobe Flash</span></div>
+                <div class="forge-item drift-1 trigger-item fx-11" style="font-family: 'Permanent Marker'; font-size: 4rem;"><div class="hover-tag">Hover</div><div><span>V</span><span>I</span><span>B</span><span>E</span></div><span class="name-label">11. Hard Shake</span></div>
+                <div class="forge-item drift-2 trigger-item fx-12" style="font-family: 'Inter'; font-size: 4rem; font-weight: 900;"><div class="hover-tag">Hover</div><div><span>E</span><span>C</span><span>H</span><span>O</span></div><span class="name-label">12. Prism Echo</span></div>
             </div>
         </section>
 
         <section class="page bg-slate-900/20">
             <div class="forge-grid">
-                <div class="forge-item drift-2 trigger-item fx-17" style="font-family: 'Pacifico'; font-size: 4rem;">
-                    <div class="hover-tag">Hover</div><div><span>S</span><span>k</span><span>e</span><span>w</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">17. Drift</span>
-                </div>
-                <div class="forge-item drift-1 trigger-item fx-18" style="font-family: 'Comfortaa'; font-size: 3.5rem;">
-                    <div class="hover-tag">Hover</div><div><span>S</span><span>w</span><span>a</span><span>y</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">18. Wobble</span>
-                </div>
-                <div class="forge-item drift-3 fx-19" style="font-family: 'Inter'; font-size: 4rem; font-weight: 900;">
-                    <div><span>B</span><span>L</span><span>U</span><span>R</span></div><span class="name-label">19. Focus</span>
-                </div>
-                <div class="forge-item drift-1 trigger-item fx-20" style="font-family: 'Lobster'; font-size: 4rem;">
-                    <div class="hover-tag">Hover</div><div><span>S</span><span>o</span><span>f</span><span>t</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">20. Liquid</span>
-                </div>
+                <div class="forge-item drift-2 trigger-item fx-13" style="font-family: 'Bangers'; font-size: 5rem;"><div class="hover-tag">Hover</div><div><span>S</span><span>C</span><span>A</span><span>N</span></div><span class="name-label">13. Neural Scan</span></div>
+                <div class="forge-item drift-1 trigger-item fx-14" style="font-family: 'Orbitron'; font-size: 3.5rem;"><div class="hover-tag">Hover</div><div><span>B</span><span>O</span><span>L</span><span>T</span></div><span class="name-label">14. Electric Strobe</span></div>
+                <div class="forge-item drift-2 fx-15" style="font-family: 'Alumni Sans Inline One'; font-size: 6rem;"><div><span>A</span><span>L</span><span>E</span><span>R</span><span>T</span></div><span class="name-label">15. Danger Pulse</span></div>
+                <div class="forge-item drift-1 trigger-item fx-16" style="font-family: 'Cinzel'; font-size: 4rem;"><div class="hover-tag">Hover</div><div><span>O</span><span>R</span><span>B</span><span>I</span><span>T</span></div><span class="name-label">16. 3D Spin</span></div>
+            </div>
+        </section>
+
+        <section class="page bg-slate-900/10">
+            <div class="forge-grid">
+                <div class="forge-item drift-1 trigger-item fx-17" style="font-family: 'Pacifico'; font-size: 4.5rem;"><div class="hover-tag">Hover</div><div><span>D</span><span>r</span><span>i</span><span>f</span><span>t</span></div><span class="name-label">17. Skew Drift</span></div>
+                <div class="forge-item drift-2 trigger-item fx-18" style="font-family: 'Comfortaa'; font-size: 4rem;"><div class="hover-tag">Hover</div><div><span>S</span><span>w</span><span>a</span><span>y</span></div><span class="name-label">18. Kinetic Wobble</span></div>
+                <div class="forge-item drift-1 fx-19" style="font-family: 'Inter'; font-size: 4rem; font-weight: 900;"><div><span>B</span><span>L</span><span>U</span><span>R</span></div><span class="name-label">19. Focus Blur</span></div>
+                <div class="forge-item drift-2 trigger-item fx-20" style="font-family: 'Lobster'; font-size: 4.5rem;"><div class="hover-tag">Hover</div><div><span>S</span><span>o</span><span>f</span><span>t</span></div><span class="name-label">20. Liquid Flow</span></div>
             </div>
         </section>
 
@@ -192,21 +155,21 @@
                 <div class="mb-16">
                     <h2 class="text-indigo-500 font-black text-xs tracking-[1em] uppercase mb-4">Project Portal</h2>
                     <img src="https://lizducos.princegeorgedesign.com/wp-content/uploads/2026/02/lizducos-dd-white-1.svg" class="w-32 h-auto mx-auto mb-8 fx-7">
-                    <p class="text-slate-300 text-lg max-w-xl mx-auto leading-relaxed mb-8 font-light">
-                        Text Forge is a conceptual typography studio created to demonstrate the power of pure CSS3 micro-interactions.
+                    <p class="text-slate-300 text-lg max-w-xl mx-auto leading-relaxed mb-10 font-light">
+                        Text Forge is a conceptual typography studio created to demonstrate the power of pure CSS3 micro-interactions. Create and export your own Forge Layers.
                     </p>
-                    <a href="https://text-animate-generator.vercel.app/" target="_blank" class="inline-block bg-indigo-600 hover:bg-white hover:text-black text-white px-10 py-4 rounded-full font-black tracking-widest transition-all text-xs uppercase">
-                        Open Forge Application →
+                    <a href="https://text-animate-generator.vercel.app/" target="_blank" class="inline-block bg-indigo-600 hover:bg-white hover:text-black text-white px-10 py-4 rounded-full font-black tracking-widest transition-all text-xs uppercase shadow-xl shadow-indigo-500/20">
+                        Try Text Forge Generator →
                     </a>
                 </div>
                 <div class="flex flex-col md:flex-row gap-6 text-left justify-center mb-16 border-t border-slate-900 pt-12">
                     <div class="p-8 rounded-3xl border border-slate-800 bg-slate-950 flex-1">
-                        <h4 class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-4">Archive Details</h4>
-                        <p class="text-[12px] text-slate-400 font-mono"><b>Project:</b> Text Forge Kinetic Showcase<br><b>Format:</b> Scroll-Snap Portal<br><b>Animations:</b> 20 Active Layers</p>
+                        <h4 class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-4">Project Metadata</h4>
+                        <p class="text-[12px] text-slate-400 font-mono leading-relaxed"><b>Project:</b> Text Forge Kinetic Archive<br><b>Format:</b> Scroll-Snap Showcase<br><b>Animations:</b> 20 Programmatic Layers</p>
                     </div>
                     <div class="p-8 rounded-3xl border border-slate-800 bg-slate-950 flex-1">
                         <h4 class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-4">The Architect</h4>
-                        <p class="text-[12px] text-slate-400 font-mono"><b>Engineer:</b> Liz Ducos<br><b>Context:</b> Concept Project 2026<br><b>Stack:</b> Tailwind & CSS3</p>
+                        <p class="text-[12px] text-slate-400 font-mono leading-relaxed"><b>Engineer:</b> Liz Ducos<br><b>School:</b> Concept Project 2026<br><b>Technology:</b> HTML5, CSS3, Tailwind</p>
                     </div>
                 </div>
                 <footer class="opacity-20 text-[9px] font-black tracking-[1.5em] uppercase pb-8">&copy; 2026 TEXT FORGE // LIZ DUCOS</footer>
