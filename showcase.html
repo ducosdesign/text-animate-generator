@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text Forge | 20 Kinetic Layers</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Bebas+Neue&family=Monoton&family=Press+Start+2P&family=Righteous&family=Lobster&family=Abril+Fatface&family=Pacifico&family=Syncopate:wght@700&family=Permanent+Marker&family=Anton&family=Fredoka+One&family=Orbitron:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Bebas+Neue&family=Monoton&family=Press+Start+2P&family=Righteous&family=Lobster&family=Abril+Fatface&family=Pacifico&family=Syncopate:wght@700&family=Permanent+Marker&family=Anton&family=Fredoka+One&family=Orbitron:wght@900&family=Comfortaa:wght@700&family=Satisfy&family=Cinzel:wght@900&display=swap" rel="stylesheet">
     <style>
         html { scroll-behavior: smooth; }
         body { background-color: #020617; color: #f8fafc; margin: 0; overflow: hidden; font-family: 'Inter', sans-serif; }
@@ -15,26 +15,17 @@
 
         .page { height: 100vh; width: 100%; scroll-snap-align: start; scroll-snap-stop: always; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; }
 
-        /* Environment */
         .stars { position: absolute; inset: 0; background-image: radial-gradient(circle at center, #ffffff 1px, transparent 1px); background-size: 80px 80px; opacity: 0.15; animation: star-drift 120s linear infinite; }
         @keyframes star-drift { from { transform: translateY(0); } to { transform: translateY(-1000px); } }
 
-        /* Forge Items */
-        .forge-item { position: relative; padding: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
+        .forge-grid { display: grid; grid-template-cols: repeat(2, 1fr); gap: 4rem; max-width: 1000px; width: 100%; padding: 20px; z-index: 10; }
+        .forge-item { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .forge-item span { display: inline-block; white-space: pre; }
         
-        .drift-1 { animation: float-drift 6s infinite ease-in-out; }
-        .drift-2 { animation: float-drift 8s infinite ease-in-out reverse; }
-        @keyframes float-drift {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(10px, -20px) rotate(2deg); }
-        }
-
-        .hover-tag { position: absolute; top: -10px; background: #6366f1; color: #fff; font-size: 7px; font-weight: 900; padding: 2px 10px; border-radius: 4px; text-transform: uppercase; white-space: nowrap; box-shadow: 0 0 15px rgba(99,102,241,0.4); opacity: 0.8; }
-        .try-btn { position: absolute; bottom: -20px; background: #fff; color: #000; font-size: 6px; font-weight: 900; padding: 4px 12px; border-radius: 100px; text-transform: uppercase; letter-spacing: 1px; opacity: 0; transition: all 0.3s ease; transform: translateY(10px); }
+        .hover-tag { position: absolute; top: -15px; background: #6366f1; color: #fff; font-size: 7px; font-weight: 900; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; white-space: nowrap; box-shadow: 0 0 15px rgba(99,102,241,0.4); }
+        .try-btn { position: absolute; bottom: -25px; background: #fff; color: #000; font-size: 7px; font-weight: 900; padding: 4px 12px; border-radius: 100px; text-transform: uppercase; opacity: 0; transition: 0.3s; transform: translateY(10px); }
         .forge-item:hover .try-btn { opacity: 1; transform: translateY(0); }
-
-        .name-label { margin-top: 30px; color: #64748b; font-family: monospace; font-size: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3em; white-space: nowrap; }
+        .name-label { margin-top: 35px; color: #64748b; font-family: monospace; font-size: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3em; }
 
         /* Stagger Logic */
         .forge-item span:nth-child(1) { animation-delay: 0.0s; }
@@ -45,39 +36,51 @@
 
         /* Trigger Logic */
         .trigger-item span { animation-play-state: paused; }
-        .trigger-item:hover .char-fx { animation-play-state: running; }
+        .trigger-item:hover span { animation-play-state: running; }
 
-        /* Animations */
-        @keyframes svgt-rainbow { 0% { color: #ff0000; } 33% { color: #00ff00; } 66% { color: #0000ff; } 100% { color: #ff0000; } }
-        @keyframes svgt-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
-        @keyframes svgt-vortex { 100% { transform: rotate(720deg) scale(0); opacity: 0; filter: blur(10px); } }
-        @keyframes svgt-flipX { 0% { transform: perspective(400px) rotateX(0); } 100% { transform: perspective(400px) rotateX(360deg); } }
-        @keyframes svgt-glitch { 0% { transform: translate(-5px); clip-path: inset(10% 0 80% 0); } 20% { transform: translate(5px); clip-path: inset(80% 0 10% 0); } 40% { clip-path: none; transform: translate(0); } }
-        @keyframes svgt-rubber { 0% { transform: scale3d(1,1,1); } 30% { transform: scale3d(1.25,.75,1); } 50% { transform: scale3d(1.15,.85,1); } 100% { transform: scale3d(1,1,1); } }
-        @keyframes svgt-jello { 0%, 11%, 100% { transform: none; } 22% { transform: skewX(-12deg) skewY(-12deg); } 33% { transform: skewX(6deg) skewY(6deg); } }
-        @keyframes svgt-neon { from { text-shadow: 0 0 2px #6366f1; } to { text-shadow: 0 0 25px #6366f1; } }
-        @keyframes svgt-zoom { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.4); } }
-        @keyframes svgt-echo { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; filter: blur(8px); } }
-        @keyframes svgt-strobe { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(3) drop-shadow(0 0 20px #6366f1); } }
-        @keyframes svgt-skew { 0% { transform: skew(0deg); } 50% { transform: skew(30deg); } 100% { transform: skew(0deg); } }
-        @keyframes svgt-blur { 0% { filter: blur(0px); } 50% { filter: blur(8px); } 100% { filter: blur(0px); } }
-        @keyframes svgt-pulse-red { 0%, 100% { transform: scale(1); color: inherit; } 50% { transform: scale(1.2); color: #ff0000; } }
+        /* --- THE 20 ENGINES --- */
+        @keyframes f-rainbow { 0% { color: #ff0000; } 33% { color: #00ff00; } 66% { color: #0000ff; } 100% { color: #ff0000; } }
+        @keyframes f-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes f-vortex { 100% { transform: rotate(720deg) scale(0); opacity: 0; } }
+        @keyframes f-flipX { 0% { transform: rotateX(0); } 100% { transform: rotateX(360deg); } }
+        @keyframes f-glitch { 0% { transform: translate(-5px); clip-path: inset(10% 0 80% 0); } 20% { transform: translate(5px); clip-path: inset(80% 0 10% 0); } 40% { clip-path: none; transform: translate(0); } }
+        @keyframes f-rubber { 0% { transform: scale3d(1,1,1); } 30% { transform: scale3d(1.25,.75,1); } 50% { transform: scale3d(1.15,.85,1); } 100% { transform: scale3d(1,1,1); } }
+        @keyframes f-jello { 0%, 11%, 100% { transform: none; } 22% { transform: skewX(-12deg) skewY(-12deg); } 33% { transform: skewX(6deg) skewY(6deg); } }
+        @keyframes f-neon { from { text-shadow: 0 0 2px #6366f1; } to { text-shadow: 0 0 20px #6366f1; } }
+        @keyframes f-zoom { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }
+        @keyframes f-flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+        @keyframes f-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+        @keyframes f-echo { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.6); opacity: 0; filter: blur(5px); } }
+        @keyframes f-scan { 0% { clip-path: inset(0 0 95% 0); } 50% { clip-path: inset(95% 0 0 0); } 100% { clip-path: inset(0 0 95% 0); } }
+        @keyframes f-spin3d { from { transform: rotate3d(1, 1, 0, 0deg); } to { transform: rotate3d(1, 1, 0, 360deg); } }
+        @keyframes f-strobe { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(3); } }
+        @keyframes f-skew { 0% { transform: skew(0deg); } 50% { transform: skew(25deg); } 100% { transform: skew(0deg); } }
+        @keyframes f-wobble { 0% { transform: translateX(0); } 25% { transform: rotate(-5deg); } 75% { transform: rotate(5deg); } }
+        @keyframes f-blur { 0% { filter: blur(0px); } 50% { filter: blur(6px); } 100% { filter: blur(0px); } }
+        @keyframes f-liquid { 0%, 100% { border-radius: 50%; } 50% { border-radius: 30% 70% 70% 30%; } }
+        @keyframes f-pulse-red { 0%, 100% { transform: scale(1); color: inherit; } 50% { transform: scale(1.1); color: #ef4444; } }
 
-        .fx-rainbow span { animation: svgt-rainbow 3s infinite linear; }
-        .fx-bounce span { animation: svgt-bounce 1s infinite ease-in-out; }
-        .fx-jello span { animation: svgt-jello 3s infinite; }
-        .fx-neon span { animation: svgt-neon 1.5s infinite alternate ease-in-out; }
-        .fx-zoom span { animation: svgt-zoom 1.5s infinite ease-in-out; }
-        .fx-blur span { animation: svgt-blur 3s infinite ease-in-out; }
-        .fx-pulse-red span { animation: svgt-pulse-red 1s infinite ease-in-out; }
-
-        .trigger-item:hover .fx-vortex span { animation: svgt-vortex 1.2s forwards ease-in; }
-        .trigger-item:hover .fx-flipX span { animation: svgt-flipX 1s infinite linear; }
-        .trigger-item:hover .fx-glitch span { animation: svgt-glitch 0.4s infinite; }
-        .trigger-item:hover .fx-rubber span { animation: svgt-rubber 0.8s infinite; }
-        .trigger-item:hover .fx-echo span { animation: svgt-echo 0.8s infinite ease-out; }
-        .trigger-item:hover .fx-strobe span { animation: svgt-strobe 0.2s infinite; }
-        .trigger-item:hover .fx-skew span { animation: svgt-skew 0.8s infinite alternate ease-in-out; }
+        /* Class Assignments */
+        .fx-1 span { animation: f-rainbow 3s infinite linear; }
+        .fx-2 span { animation: f-vortex 1.5s forwards; }
+        .fx-3 span { animation: f-flipX 1.5s infinite linear; }
+        .fx-4 span { animation: f-bounce 1s infinite ease-in-out; }
+        .fx-5 span { animation: f-glitch 0.4s infinite; }
+        .fx-6 span { animation: f-jello 2s infinite; }
+        .fx-7 span { animation: f-neon 1.5s infinite alternate; }
+        .fx-8 span { animation: f-rubber 0.8s infinite; }
+        .fx-9 span { animation: f-zoom 1.5s infinite; }
+        .fx-10 span { animation: f-flash 1s infinite; }
+        .fx-11 span { animation: f-shake 0.3s infinite; }
+        .fx-12 span { animation: f-echo 0.8s infinite; }
+        .fx-13 span { animation: f-scan 1.5s infinite linear; }
+        .fx-14 span { animation: f-strobe 0.2s infinite; }
+        .fx-15 span { animation: f-pulse-red 1s infinite; }
+        .fx-16 span { animation: f-spin3d 2s infinite linear; }
+        .fx-17 span { animation: f-skew 0.8s infinite alternate; }
+        .fx-18 span { animation: f-wobble 0.6s infinite; }
+        .fx-19 span { animation: f-blur 2s infinite; }
+        .fx-20 span { animation: f-liquid 2s infinite; }
     </style>
 </head>
 <body class="bg-slate-950">
@@ -88,10 +91,10 @@
         <section class="page">
             <nav class="absolute top-8 w-full px-12 flex justify-between items-center z-50">
                 <span class="font-black text-2xl italic tracking-tighter text-indigo-500">TEXT FORGE</span>
-                <a href="https://text-animate-generator.vercel.app/" target="_blank" class="bg-indigo-600 text-white text-[10px] font-black py-2 px-6 rounded-full hover:bg-white hover:text-indigo-600 transition-all uppercase tracking-widest">Forge Now →</a>
+                <a href="https://text-animate-generator.vercel.app/" target="_blank" class="bg-indigo-600 text-white text-[10px] font-black py-2 px-6 rounded-full hover:bg-white hover:text-indigo-600 transition-all uppercase tracking-widest">Open Generator →</a>
             </nav>
             <div class="text-center z-10">
-                <div class="mb-6 flex justify-center space-x-2 text-7xl md:text-9xl font-black italic tracking-tighter fx-neon">
+                <div class="mb-6 flex justify-center space-x-2 text-7xl md:text-9xl font-black italic tracking-tighter fx-7">
                     <span>T</span><span>E</span><span>X</span><span>T</span>
                 </div>
                 <h1 class="text-4xl font-light tracking-[0.5em] text-slate-500 uppercase mb-10">Kinetic Archive</h1>
@@ -100,67 +103,113 @@
         </section>
 
         <section class="page bg-slate-900/20">
-            <div class="grid grid-cols-2 gap-x-32 gap-y-16">
-                <div class="forge-item drift-1 fx-rainbow" style="font-family: 'Monoton'; font-size: 4rem;">
-                    <div><span>C</span><span>O</span><span>L</span><span>O</span><span>R</span></div>
-                    <a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a>
-                    <span class="name-label">01. Rainbow Loop</span>
+            <div class="forge-grid">
+                <div class="forge-item drift-1 fx-1" style="font-family: 'Monoton'; font-size: 3.5rem;">
+                    <div><span>H</span><span>U</span><span>E</span></div><span class="name-label">01. Rainbow Loop</span>
                 </div>
-                <div class="forge-item drift-2 trigger-item" style="font-family: 'Orbitron'; font-size: 3rem;">
-                    <div class="hover-tag">Hover</div>
-                    <div class="fx-vortex char-fx"><span>V</span><span>A</span><span>N</span><span>I</span><span>S</span><span>H</span></div>
-                    <a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a>
-                    <span class="name-label">02. Vortex Vanish</span>
+                <div class="forge-item drift-2 trigger-item fx-2" style="font-family: 'Orbitron'; font-size: 3rem;">
+                    <div class="hover-tag">Hover</div><div><span>V</span><span>A</span><span>N</span><span>I</span><span>S</span><span>H</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">02. Vortex</span>
                 </div>
-                <div class="forge-item drift-1 trigger-item" style="font-family: 'Bebas Neue'; font-size: 5rem;">
-                    <div class="hover-tag">Hover</div>
-                    <div class="fx-flipX char-fx"><span>F</span><span>L</span><span>I</span><span>P</span></div>
-                    <a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a>
-                    <span class="name-label">03. 3D X-Axis</span>
+                <div class="forge-item drift-3 trigger-item fx-3" style="font-family: 'Bebas Neue'; font-size: 4.5rem;">
+                    <div class="hover-tag">Hover</div><div><span>F</span><span>L</span><span>I</span><span>P</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">03. 3D X-Axis</span>
                 </div>
-                <div class="forge-item drift-2 fx-bounce" style="font-family: 'Satisfy'; font-size: 4rem;">
-                    <div><span>B</span><span>o</span><span>u</span><span>n</span><span>c</span><span>e</span></div>
-                    <a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a>
-                    <span class="name-label">04. Script Wave</span>
+                <div class="forge-item drift-1 fx-4" style="font-family: 'Satisfy'; font-size: 4rem;">
+                    <div><span>W</span><span>a</span><span>v</span><span>e</span></div><span class="name-label">04. Script Bounce</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="page">
+            <div class="forge-grid">
+                <div class="forge-item drift-1 trigger-item fx-5" style="font-family: 'Press Start 2P'; font-size: 1.8rem;">
+                    <div class="hover-tag">Hover</div><div><span>G</span><span>L</span><span>I</span><span>T</span><span>C</span><span>H</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">05. Cyber Glitch</span>
+                </div>
+                <div class="forge-item drift-3 fx-6" style="font-family: 'Fredoka One'; font-size: 4rem;">
+                    <div><span>J</span><span>e</span><span>l</span><span>l</span><span>o</span></div><span class="name-label">06. Wobble</span>
+                </div>
+                <div class="forge-item drift-2 fx-7" style="font-family: 'Monoton'; font-size: 3rem;">
+                    <div><span>G</span><span>L</span><span>O</span><span>W</span></div><span class="name-label">07. Neon Burn</span>
+                </div>
+                <div class="forge-item drift-1 trigger-item fx-8" style="font-family: 'Anton'; font-size: 5rem;">
+                    <div class="hover-tag">Hover</div><div><span>F</span><span>L</span><span>E</span><span>X</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">08. Rubber Band</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="page bg-slate-900/20">
+            <div class="forge-grid">
+                <div class="forge-item drift-2 fx-9" style="font-family: 'Righteous'; font-size: 4rem;">
+                    <div><span>Z</span><span>O</span><span>O</span><span>M</span></div><span class="name-label">09. Pulse In/Out</span>
+                </div>
+                <div class="forge-item drift-1 trigger-item fx-10" style="font-family: 'Cinzel'; font-size: 3.5rem;">
+                    <div class="hover-tag">Hover</div><div><span>H</span><span>I</span><span>T</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">10. Strobe</span>
+                </div>
+                <div class="forge-item drift-3 trigger-item fx-11" style="font-family: 'Permanent Marker'; font-size: 4rem;">
+                    <div class="hover-tag">Hover</div><div><span>V</span><span>I</span><span>B</span><span>E</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">11. Shake</span>
+                </div>
+                <div class="forge-item drift-2 trigger-item fx-12" style="font-family: 'Inter'; font-size: 4rem; font-weight: 900;">
+                    <div class="hover-tag">Hover</div><div><span>E</span><span>C</span><span>H</span><span>O</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">12. Prism</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="page">
+            <div class="forge-grid">
+                <div class="forge-item drift-1 trigger-item fx-13" style="font-family: 'Syncopate'; font-size: 3rem;">
+                    <div class="hover-tag">Hover</div><div><span>S</span><span>C</span><span>A</span><span>N</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">13. Neural Scan</span>
+                </div>
+                <div class="forge-item drift-3 trigger-item fx-14" style="font-family: 'Orbitron'; font-size: 3.5rem;">
+                    <div class="hover-tag">Hover</div><div><span>B</span><span>O</span><span>L</span><span>T</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">14. Electric</span>
+                </div>
+                <div class="forge-item drift-2 fx-15" style="font-family: 'Anton'; font-size: 4.5rem;">
+                    <div><span>A</span><span>L</span><span>E</span><span>R</span><span>T</span></div><span class="name-label">15. Danger</span>
+                </div>
+                <div class="forge-item drift-1 trigger-item fx-16" style="font-family: 'Cinzel'; font-size: 3.5rem;">
+                    <div class="hover-tag">Hover</div><div><span>3</span><span>D</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">16. Orbit</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="page bg-slate-900/20">
+            <div class="forge-grid">
+                <div class="forge-item drift-2 trigger-item fx-17" style="font-family: 'Pacifico'; font-size: 4rem;">
+                    <div class="hover-tag">Hover</div><div><span>S</span><span>k</span><span>e</span><span>w</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">17. Drift</span>
+                </div>
+                <div class="forge-item drift-1 trigger-item fx-18" style="font-family: 'Comfortaa'; font-size: 3.5rem;">
+                    <div class="hover-tag">Hover</div><div><span>S</span><span>w</span><span>a</span><span>y</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">18. Wobble</span>
+                </div>
+                <div class="forge-item drift-3 fx-19" style="font-family: 'Inter'; font-size: 4rem; font-weight: 900;">
+                    <div><span>B</span><span>L</span><span>U</span><span>R</span></div><span class="name-label">19. Focus</span>
+                </div>
+                <div class="forge-item drift-1 trigger-item fx-20" style="font-family: 'Lobster'; font-size: 4rem;">
+                    <div class="hover-tag">Hover</div><div><span>S</span><span>o</span><span>f</span><span>t</span></div><a href="https://text-animate-generator.vercel.app/" target="_blank" class="try-btn">Try Me</a><span class="name-label">20. Liquid</span>
                 </div>
             </div>
         </section>
 
         <section class="page bg-black">
-            <div class="max-w-6xl w-full text-center px-10 z-10">
-                <div class="mb-20">
-                    <h2 class="text-indigo-500 font-black text-xs tracking-[1em] uppercase mb-4">The Forge Portal</h2>
-                    <p class="text-slate-200 text-lg max-w-xl mx-auto leading-relaxed mb-10 font-light">
-                        Forge your own kinetic typography layers using pure CSS3 code snippets. 100% accessible, performant, and responsive.
+            <div class="max-w-4xl w-full text-center px-10 z-10">
+                <div class="mb-16">
+                    <h2 class="text-indigo-500 font-black text-xs tracking-[1em] uppercase mb-4">Project Portal</h2>
+                    <img src="https://lizducos.princegeorgedesign.com/wp-content/uploads/2026/02/lizducos-dd-white-1.svg" class="w-32 h-auto mx-auto mb-8 fx-7">
+                    <p class="text-slate-300 text-lg max-w-xl mx-auto leading-relaxed mb-8 font-light">
+                        Text Forge is a conceptual typography studio created to demonstrate the power of pure CSS3 micro-interactions.
                     </p>
-                    <a href="https://text-animate-generator.vercel.app/" target="_blank" 
-                       class="inline-block bg-indigo-600 hover:bg-white hover:text-black text-white px-12 py-5 rounded-full font-black tracking-widest transition-all shadow-xl uppercase text-xs">
-                       Open Text Forge App →
+                    <a href="https://text-animate-generator.vercel.app/" target="_blank" class="inline-block bg-indigo-600 hover:bg-white hover:text-black text-white px-10 py-4 rounded-full font-black tracking-widest transition-all text-xs uppercase">
+                        Open Forge Application →
                     </a>
                 </div>
-                
-                <div class="flex flex-col md:flex-row gap-8 text-left justify-center mb-20 border-t border-slate-900 pt-16">
-                    <div class="p-10 rounded-[2.5rem] border border-slate-800 bg-slate-950 flex-1">
-                        <h4 class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-6">Metadata</h4>
-                        <div class="space-y-3 text-[13px] font-mono text-slate-300">
-                            <p><b>Project:</b> Text Forge Archive</p>
-                            <p><b>Version:</b> 1.0 (School Concept)</p>
-                            <p><b>Deploy:</b> text-animate-generator.vercel.app</p>
-                        </div>
+                <div class="flex flex-col md:flex-row gap-6 text-left justify-center mb-16 border-t border-slate-900 pt-12">
+                    <div class="p-8 rounded-3xl border border-slate-800 bg-slate-950 flex-1">
+                        <h4 class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-4">Archive Details</h4>
+                        <p class="text-[12px] text-slate-400 font-mono"><b>Project:</b> Text Forge Kinetic Showcase<br><b>Format:</b> Scroll-Snap Portal<br><b>Animations:</b> 20 Active Layers</p>
                     </div>
-                    <div class="p-10 rounded-[2.5rem] border border-slate-800 bg-slate-950 flex-1">
-                        <h4 class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-6">Credits</h4>
-                        <div class="space-y-3 text-[13px] font-mono text-slate-300">
-                            <p><b>Engineer:</b> Emeliza "Liz" Ducos</p>
-                            <p><b>Stack:</b> Tailwind & CSS3 Keyframes</p>
-                            <p><b>Year:</b> 2026</p>
-                        </div>
+                    <div class="p-8 rounded-3xl border border-slate-800 bg-slate-950 flex-1">
+                        <h4 class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-4">The Architect</h4>
+                        <p class="text-[12px] text-slate-400 font-mono"><b>Engineer:</b> Liz Ducos<br><b>Context:</b> Concept Project 2026<br><b>Stack:</b> Tailwind & CSS3</p>
                     </div>
                 </div>
-
-                <footer class="opacity-30 text-[9px] font-black tracking-[1.5em] uppercase pb-12">
-                    &copy; 2026 TEXT FORGE // LIZ DUCOS
-                </footer>
+                <footer class="opacity-20 text-[9px] font-black tracking-[1.5em] uppercase pb-8">&copy; 2026 TEXT FORGE // LIZ DUCOS</footer>
             </div>
         </section>
     </div>
