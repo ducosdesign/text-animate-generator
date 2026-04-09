@@ -1,3 +1,6 @@
+I have updated the starting value to "EDIT TEXT" and ensured it remains constant (removing the random quirky word generator to respect your specific request). All 20 fonts, 20 animations, and the circular color pickers are active and ready.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultimate Text Animator Pro - Liz Ducos Edition</title>
     <link id="google-font-link" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Roboto:wght@100..900&family=Lobster&family=Pacifico&family=Bebas+Neue&family=Monoton&family=Press+Start+2P&family=Righteous&family=Abril+Fatface&family=Comfortaa:wght@300..700&family=Permanent+Marker&family=Playfair+Display:wght@400..900&family=Montserrat:wght@100..900&family=Oswald:wght@200..700&family=Syncopate:wght@400;700&family=Caveat:wght@400..700&family=Orbitron:wght@400..900&family=Cinzel:wght@400..900&family=Anton&family=Satisfy&family=Fredoka+One&display=swap">
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/build/gifshot.min.js"></script>
     
@@ -26,25 +28,30 @@
         .credit { margin-top: 10px; font-size: 0.7rem; color: var(--accent); font-weight: bold; border-top: 1px solid #333; padding-top: 10px; }
         .preview-area { flex-grow: 1; display: flex; align-items: center; justify-content: center; background-color: #ffffff; position: relative; }
         .code-panels { width: 400px; background: var(--sidebar); border-left: 1px solid #333; display: flex; flex-direction: column; }
+        
         h3 { font-size: 0.7rem; margin: 20px 0 10px 0; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; }
         .control-group { margin-bottom: 12px; }
         label { display: block; font-size: 0.7rem; margin-bottom: 6px; color: #999; }
+        
         input:not([type="color"]), select { width: 100%; padding: 10px; background: #2a2a2a; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box; }
+
         .color-row { display: flex; align-items: center; gap: 12px; background: #2a2a2a; padding: 8px 12px; border-radius: 6px; border: 1px solid #444; }
         .color-circle-wrapper { width: 28px; height: 28px; border-radius: 50%; overflow: hidden; border: 2px solid #555; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         input[type="color"] { border: none; width: 150%; height: 150%; cursor: pointer; background: none; padding: 0; margin: 0; transform: scale(1.5); }
         .hex-display { font-family: monospace; font-size: 0.8rem; color: #fff; }
+
         .btn-stack { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
         button { width: 100%; padding: 12px; cursor: pointer; border-radius: 6px; font-weight: 600; border: none; transition: 0.2s; }
         .btn-png { background: var(--accent); color: white; }
         .btn-gif { background: var(--success); color: white; }
         .btn-mp4 { background: var(--video-btn); color: white; }
         .btn-copy { background: #444; color: white; margin-top: 10px; font-size: 0.8rem; }
+
         #text-wrap { display: flex; flex-wrap: wrap; justify-content: center; width: 100%; }
         .char { display: inline-block; white-space: pre; }
         textarea { flex: 1; background: #0f0f0f; color: #75beff; border: none; padding: 15px; font-family: monospace; font-size: 11px; resize: none; }
 
-        /* Keyframes - Same 20 as before */
+        /* Keyframes */
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
         @keyframes wave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(15deg); } }
         @keyframes flipX { 0% { transform: rotateX(0); } 100% { transform: rotateX(360deg); } }
@@ -66,6 +73,7 @@
         @keyframes slideUp { 0% { transform: translateY(0); } 50% { transform: translateY(-10px); opacity: 0.5; } 100% { transform: translateY(0); } }
         @keyframes swing { 20% { transform: rotate3d(0, 0, 1, 15deg); } 40% { transform: rotate3d(0, 0, 1, -10deg); } 60% { transform: rotate3d(0, 0, 1, 5deg); } 80% { transform: rotate3d(0, 0, 1, -5deg); } 100% { transform: rotate3d(0, 0, 1, 0deg); } }
 
+        /* Animation Classes */
         .anim-bounce { animation: bounce 1s infinite; }
         .anim-wave { animation: wave 1s infinite; }
         .anim-flipX { animation: flipX 1.5s infinite linear; }
@@ -93,17 +101,41 @@
 <div class="sidebar">
     <div class="controls">
         <h3>Text</h3>
-        <input type="text" id="text-input" placeholder="Edit text here..." value="">
+        <input type="text" id="text-input" placeholder="Edit text here..." value="EDIT TEXT">
 
         <h3>Typography</h3>
         <div class="control-group">
-            <label>Font Family</label>
+            <label>Font Family (20)</label>
             <select id="font-select">
                 <option value="Inter">Inter</option>
+                <option value="Roboto">Roboto</option>
+                <option value="Montserrat">Montserrat</option>
+                <option value="Playfair Display">Playfair Display</option>
+                <option value="Oswald">Oswald</option>
                 <option value="Bebas Neue">Bebas Neue</option>
                 <option value="Lobster">Lobster</option>
+                <option value="Pacifico">Pacifico</option>
                 <option value="Orbitron">Orbitron</option>
+                <option value="Syncopate">Syncopate</option>
+                <option value="Cinzel">Cinzel</option>
+                <option value="Anton">Anton</option>
+                <option value="Satisfy">Satisfy</option>
+                <option value="Fredoka One">Fredoka One</option>
+                <option value="Monoton">Monoton</option>
                 <option value="Press Start 2P">Pixel</option>
+                <option value="Righteous">Righteous</option>
+                <option value="Abril Fatface">Abril Fatface</option>
+                <option value="Permanent Marker">Permanent Marker</option>
+                <option value="Comfortaa">Comfortaa</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Font Weight</label>
+            <select id="font-weight">
+                <option value="300">Light</option>
+                <option value="400" selected>Regular</option>
+                <option value="700">Bold</option>
+                <option value="900">Black</option>
             </select>
         </div>
         <div style="display:flex; gap:10px;">
@@ -111,7 +143,7 @@
             <div class="control-group"><label>Spacing</label><input type="number" id="letter-spacing" value="2"></div>
         </div>
 
-        <h3>Colors</h3>
+        <h3>Design</h3>
         <div class="control-group">
             <label>Text Color</label>
             <div class="color-row">
@@ -127,12 +159,28 @@
             </div>
         </div>
 
-        <h3>Motion</h3>
+        <h3>Motion (20)</h3>
         <select id="anim-select">
             <option value="anim-bounce">Bounce</option>
-            <option value="anim-rainbow">Rainbow</option>
-            <option value="anim-float">Float</option>
+            <option value="anim-wave">Wave</option>
+            <option value="anim-flipX">Flip X</option>
+            <option value="anim-flipY">Flip Y</option>
+            <option value="anim-zoom">Pulse</option>
             <option value="anim-wobble">Wobble</option>
+            <option value="anim-jump">Jump</option>
+            <option value="anim-flash">Flash</option>
+            <option value="anim-shake">Shake</option>
+            <option value="anim-glow">Glow</option>
+            <option value="anim-spin">Spin</option>
+            <option value="anim-pulse-red">Danger Pulse</option>
+            <option value="anim-rubber">Rubber</option>
+            <option value="anim-blur">Blur</option>
+            <option value="anim-skew">Skew</option>
+            <option value="anim-float">Float</option>
+            <option value="anim-heartBeat">Heartbeat</option>
+            <option value="anim-rainbow">Rainbow</option>
+            <option value="anim-slideUp">Slide Up</option>
+            <option value="anim-swing">Swing</option>
         </select>
 
         <div class="btn-stack">
@@ -142,7 +190,7 @@
         </div>
     </div>
     <div class="instructions">
-        <strong>Manual:</strong> Use MP4 for high-quality social sharing. Recording takes 3 seconds.
+        <strong>Manual:</strong> The Embed Code includes the CSS Keyframes. To use on your site, paste the full snippet into an HTML block.
         <div class="credit">Prompt Engineer: Liz Ducos</div>
     </div>
 </div>
@@ -159,25 +207,37 @@
 </div>
 
 <script>
-    const quirkyWords = ["BAMBOOZLED", "SKEDADDLE", "HULLABALOO", "KERFUFFLE", "LALLYGAG", "MALARKEY", "GIBBERISH", "SHENANIGANS", "DOODAD", "WHIPPERSNAPPER"];
-    const inputs = ['text-input', 'font-select', 'font-size', 'letter-spacing', 'text-color', 'canvas-color', 'anim-select'];
+    const inputs = ['text-input', 'font-select', 'font-weight', 'font-size', 'letter-spacing', 'text-color', 'canvas-color', 'anim-select'];
 
     const keyframeLibrary = {
         'anim-bounce': '@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }',
-        'anim-rainbow': '@keyframes rainbow { 0% { color: red; } 20% { color: orange; } 40% { color: yellow; } 60% { color: green; } 80% { color: blue; } 100% { color: violet; } }',
+        'anim-wave': '@keyframes wave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(15deg); } }',
+        'anim-flipX': '@keyframes flipX { 0% { transform: rotateX(0); } 100% { transform: rotateX(360deg); } }',
+        'anim-flipY': '@keyframes flipY { 0% { transform: rotateY(0); } 100% { transform: rotateY(360deg); } }',
+        'anim-zoom': '@keyframes zoom { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }',
+        'anim-wobble': '@keyframes wobble { 0% { transform: translateX(0); } 25% { transform: translateX(-5px) rotate(-5deg); } 75% { transform: translateX(5px) rotate(5deg); } }',
+        'anim-jump': '@keyframes jump { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.2, 0.8); } }',
+        'anim-flash': '@keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }',
+        'anim-shake': '@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }',
+        'anim-glow': '@keyframes glow { 0%, 100% { text-shadow: 0 0 5px currentColor; } 50% { text-shadow: 0 0 20px currentColor; } }',
+        'anim-spin': '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }',
+        'anim-pulse-red': '@keyframes pulse-red { 0% { transform: scale(1); } 50% { transform: scale(1.1); color: #ff0000; } 100% { transform: scale(1); } }',
+        'anim-rubber': '@keyframes rubber { 0% { transform: scale3d(1,1,1); } 30% { transform: scale3d(1.25,.75,1); } 40% { transform: scale3d(.75,1.25,1); } 50% { transform: scale3d(1.15,.85,1); } 100% { transform: scale3d(1,1,1); } }',
+        'anim-blur': '@keyframes blur { 0% { filter: blur(0px); } 50% { filter: blur(5px); } 100% { filter: blur(0px); } }',
+        'anim-skew': '@keyframes skew { 0% { transform: skew(0deg); } 50% { transform: skew(20deg); } 100% { transform: skew(0deg); } }',
         'anim-float': '@keyframes float { 0% { transform: translate(0, 0); } 50% { transform: translate(5px, -10px); } 100% { transform: translate(0, 0); } }',
-        'anim-wobble': '@keyframes wobble { 0% { transform: translateX(0); } 25% { transform: translateX(-5px) rotate(-5deg); } 75% { transform: translateX(5px) rotate(5deg); } }'
+        'anim-heartBeat': '@keyframes heartBeat { 0% { transform: scale(1); } 14% { transform: scale(1.3); } 28% { transform: scale(1); } 42% { transform: scale(1.3); } 70% { transform: scale(1); } }',
+        'anim-rainbow': '@keyframes rainbow { 0% { color: red; } 20% { color: orange; } 40% { color: yellow; } 60% { color: green; } 80% { color: blue; } 100% { color: violet; } }',
+        'anim-slideUp': '@keyframes slideUp { 0% { transform: translateY(0); } 50% { transform: translateY(-10px); opacity: 0.5; } 100% { transform: translateY(0); } }',
+        'anim-swing': '@keyframes swing { 20% { transform: rotate3d(0, 0, 1, 15deg); } 40% { transform: rotate3d(0, 0, 1, -10deg); } 60% { transform: rotate3d(0, 0, 1, 5deg); } 80% { transform: rotate3d(0, 0, 1, -5deg); } 100% { transform: rotate3d(0, 0, 1, 0deg); } }'
     };
-
-    function init() {
-        document.getElementById('text-input').value = quirkyWords[Math.floor(Math.random() * quirkyWords.length)];
-        update();
-    }
 
     function update() {
         const text = document.getElementById('text-input').value || " "; 
         const font = document.getElementById('font-select').value;
+        const weight = document.getElementById('font-weight').value;
         const size = document.getElementById('font-size').value + 'px';
+        const spacing = document.getElementById('letter-spacing').value + 'px';
         const color = document.getElementById('text-color').value;
         const canvas = document.getElementById('canvas-color').value;
         const anim = document.getElementById('anim-select').value;
@@ -188,70 +248,82 @@
 
         const container = document.getElementById('text-wrap');
         container.innerHTML = '';
+        let snippet = '';
+
         text.split('').forEach((char, i) => {
+            const display = char === ' ' ? '&nbsp;' : char;
+            const style = `color:${color}; font-size:${size}; font-family:'${font}', sans-serif; font-weight:${weight}; letter-spacing:${spacing}; animation-delay:${i * 0.1}s;`;
             const span = document.createElement('span');
             span.className = `char ${anim}`;
-            span.style.cssText = `color:${color}; font-size:${size}; font-family:'${font}', sans-serif; animation-delay:${i * 0.1}s;`;
-            span.innerHTML = char === ' ' ? '&nbsp;' : char;
+            span.style.cssText = style;
+            span.innerHTML = display;
             container.appendChild(span);
+            snippet += `  <span class="char ${anim}" style="${style}">${display}</span>\n`;
         });
+
+        const activeKeyframes = keyframeLibrary[anim] || '';
+        document.getElementById('embed-code').value = `<style>\n  @import url('https://fonts.googleapis.com/css2?family=${font.replace(/ /g, '+')}:wght@${weight}');\n  .char { display: inline-block; white-space: pre; }\n  .${anim} { animation: ${anim.replace('anim-', '')} 1.5s infinite; }\n  ${activeKeyframes}\n</style>\n\n<div style="display:flex; flex-wrap:wrap; justify-content:center;">\n${snippet}</div>`;
     }
 
     async function exportMP4() {
         const btn = document.getElementById('mp4-btn');
         btn.innerText = "Recording (3s)...";
         btn.disabled = true;
-
-        const captureZone = document.getElementById('capture-zone');
-        const canvas = await html2canvas(captureZone);
-        const stream = canvas.captureStream(30); 
-        const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' }); 
+        const canvas = await html2canvas(document.getElementById('capture-zone'));
+        const stream = canvas.captureStream(30);
+        const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
         const chunks = [];
-
         recorder.ondataavailable = e => chunks.push(e.data);
         recorder.onstop = () => {
             const blob = new Blob(chunks, { type: 'video/mp4' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'animation.mp4';
-            a.click();
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'animation.mp4';
+            link.click();
             btn.innerText = "Download MP4";
             btn.disabled = false;
         };
-
         recorder.start();
-        setTimeout(() => recorder.stop(), 3000); 
-    }
-
-    // Other functions (PNG, GIF, Copy) remain the same
-    async function exportPNG() {
-        const canvas = await html2canvas(document.getElementById('capture-zone'));
-        const link = document.createElement('a');
-        link.download = 'design.png';
-        link.href = canvas.toDataURL();
-        link.click();
+        setTimeout(() => recorder.stop(), 3000);
     }
 
     function exportGIF() {
-        gifshot.createGIF({
-            gifWidth: 800,
-            gifHeight: 400,
-            htmlElement: document.getElementById('capture-zone'),
-            numFrames: 15
-        }, function(obj) {
+        if (typeof gifshot === 'undefined') return alert("Loading GIF library...");
+        const btn = document.getElementById('gif-btn');
+        btn.innerText = "Capturing...";
+        gifshot.createGIF({ gifWidth: 800, gifHeight: 400, htmlElement: document.getElementById('capture-zone'), numFrames: 20 }, (obj) => {
             if(!obj.error) {
                 const link = document.createElement('a');
                 link.download = 'animation.gif';
                 link.href = obj.image;
                 link.click();
             }
+            btn.innerText = "Generate GIF";
         });
     }
 
+    function exportPNG() {
+        html2canvas(document.getElementById('capture-zone')).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'design.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    }
+
+    function copyCode() {
+        const el = document.getElementById("embed-code");
+        el.select();
+        document.execCommand("copy");
+        const btn = document.querySelector('.btn-copy');
+        btn.innerText = "Copied!";
+        setTimeout(() => btn.innerText = "Copy", 2000);
+    }
+
     inputs.forEach(id => document.getElementById(id).addEventListener('input', update));
-    window.onload = init;
+    window.onload = update;
 </script>
 
 </body>
 </html>
+```
