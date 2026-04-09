@@ -6,7 +6,6 @@
     <title>Ultimate Text Animator Pro - Liz Ducos Edition</title>
     <link id="google-font-link" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Roboto:wght@100..900&family=Lobster&family=Pacifico&family=Bebas+Neue&family=Monoton&family=Press+Start+2P&family=Righteous&family=Abril+Fatface&family=Comfortaa:wght@300..700&family=Permanent+Marker&family=Playfair+Display:wght@400..900&family=Montserrat:wght@100..900&family=Oswald:wght@200..700&family=Syncopate:wght@400;700&family=Caveat:wght@400..700&family=Orbitron:wght@400..900&family=Cinzel:wght@400..900&family=Anton&family=Satisfy&family=Fredoka+One&display=swap">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/build/gifshot.min.js"></script>
     
     <style>
         :root {
@@ -15,7 +14,6 @@
             --accent: #6366f1;
             --text: #e0e0e0;
             --success: #10b981;
-            --video-btn: #f59e0b;
         }
 
         body { font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; background: var(--bg); color: var(--text); overflow: hidden; }
@@ -40,8 +38,6 @@
         .btn-stack { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
         button { width: 100%; padding: 12px; cursor: pointer; border-radius: 6px; font-weight: 600; border: none; transition: 0.2s; }
         .btn-png { background: var(--accent); color: white; }
-        .btn-gif { background: var(--success); color: white; }
-        .btn-mp4 { background: var(--video-btn); color: white; }
         .btn-copy { background: #444; color: white; margin-top: 10px; font-size: 0.8rem; }
 
         #text-wrap { display: flex; flex-wrap: wrap; justify-content: center; width: 100%; }
@@ -182,8 +178,6 @@
 
         <div class="btn-stack">
             <button class="btn-png" onclick="exportPNG()">Download PNG</button>
-            <button class="btn-gif" id="gif-btn" onclick="exportGIF()">Generate GIF</button>
-            <button class="btn-mp4" id="mp4-btn" onclick="exportMP4()">Download MP4</button>
         </div>
     </div>
     <div class="instructions">
@@ -262,43 +256,6 @@
         document.getElementById('embed-code').value = `<style>\n  @import url('https://fonts.googleapis.com/css2?family=${font.replace(/ /g, '+')}:wght@${weight}');\n  .char { display: inline-block; white-space: pre; }\n  .${anim} { animation: ${anim.replace('anim-', '')} 1.5s infinite; }\n  ${activeKeyframes}\n</style>\n\n<div style="display:flex; flex-wrap:wrap; justify-content:center;">\n${snippet}</div>`;
     }
 
-    async function exportMP4() {
-        const btn = document.getElementById('mp4-btn');
-        btn.innerText = "Recording (3s)...";
-        btn.disabled = true;
-        const canvas = await html2canvas(document.getElementById('capture-zone'));
-        const stream = canvas.captureStream(30);
-        const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
-        const chunks = [];
-        recorder.ondataavailable = e => chunks.push(e.data);
-        recorder.onstop = () => {
-            const blob = new Blob(chunks, { type: 'video/mp4' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'animation.mp4';
-            link.click();
-            btn.innerText = "Download MP4";
-            btn.disabled = false;
-        };
-        recorder.start();
-        setTimeout(() => recorder.stop(), 3000);
-    }
-
-    function exportGIF() {
-        if (typeof gifshot === 'undefined') return alert("Loading GIF library...");
-        const btn = document.getElementById('gif-btn');
-        btn.innerText = "Capturing...";
-        gifshot.createGIF({ gifWidth: 800, gifHeight: 400, htmlElement: document.getElementById('capture-zone'), numFrames: 20 }, (obj) => {
-            if(!obj.error) {
-                const link = document.createElement('a');
-                link.download = 'animation.gif';
-                link.href = obj.image;
-                link.click();
-            }
-            btn.innerText = "Generate GIF";
-        });
-    }
-
     function exportPNG() {
         html2canvas(document.getElementById('capture-zone')).then(canvas => {
             const link = document.createElement('a');
@@ -323,4 +280,3 @@
 
 </body>
 </html>
-```
