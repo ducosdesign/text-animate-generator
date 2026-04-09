@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Text Animator Pro - 20 Motions</title>
-    <link id="google-font-link" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&family=Lobster&family=Pacifico&family=Bebas+Neue&family=Monoton&family=Press+Start+2P&family=Righteous&family=Abril+Fatface&family=Comfortaa&family=Permanent+Marker&display=swap">
+    <title>Ultimate Text Animator Pro - Typography Edition</title>
+    <link id="google-font-link" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Roboto:wght@100..900&family=Lobster&family=Pacifico&family=Bebas+Neue&family=Monoton&family=Press+Start+2P&family=Righteous&family=Abril+Fatface&family=Comfortaa:wght@300..700&family=Permanent+Marker&family=Playfair+Display:wght@400..900&family=Montserrat:wght@100..900&family=Oswald:wght@200..700&family=Syncopate:wght@400;700&family=Caveat:wght@400..700&family=Orbitron:wght@400..900&family=Cinzel:wght@400..900&family=Anton&family=Satisfy&family=Fredoka+One&display=swap">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gifshot/0.4.5/gifshot.min.js"></script>
     
@@ -41,40 +41,9 @@
         
         input:not([type="color"]), select { width: 100%; padding: 10px; background: #2a2a2a; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box; }
 
-        /* CIRCULAR COLOR PICKER STYLING */
-        .color-row { 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            background: #2a2a2a; 
-            padding: 8px 12px; 
-            border-radius: 6px; 
-            border: 1px solid #444; 
-        }
-        
-        .color-circle-wrapper {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid #555;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        input[type="color"] {
-            border: none;
-            width: 150%;
-            height: 150%;
-            cursor: pointer;
-            background: none;
-            padding: 0;
-            margin: 0;
-            transform: scale(1.5); /* Hide default input borders */
-        }
-
+        .color-row { display: flex; align-items: center; gap: 12px; background: #2a2a2a; padding: 8px 12px; border-radius: 6px; border: 1px solid #444; }
+        .color-circle-wrapper { width: 28px; height: 28px; border-radius: 50%; overflow: hidden; border: 2px solid #555; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        input[type="color"] { border: none; width: 150%; height: 150%; cursor: pointer; background: none; padding: 0; margin: 0; transform: scale(1.5); }
         .hex-display { font-family: monospace; font-size: 0.8rem; color: #fff; }
 
         .btn-stack { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
@@ -82,7 +51,6 @@
         .btn-png { background: var(--accent); color: white; }
         .btn-gif { background: var(--success); color: white; }
         .btn-copy { background: #444; color: white; margin-top: 10px; font-size: 0.8rem; }
-        .btn-copy:hover { background: #555; }
 
         #text-wrap { display: flex; flex-wrap: wrap; justify-content: center; width: 100%; }
         .char { display: inline-block; white-space: pre; }
@@ -90,7 +58,7 @@
         .panel-header { display: flex; justify-content: space-between; align-items: center; padding-right: 15px; }
         textarea { flex: 1; background: #0f0f0f; color: #75beff; border: none; padding: 15px; font-family: monospace; font-size: 11px; resize: none; }
 
-        /* Keyframes */
+        /* Animations (20 Motions) */
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
         @keyframes wave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(15deg); } }
         @keyframes flipX { 0% { transform: rotateX(0); } 100% { transform: rotateX(360deg); } }
@@ -139,43 +107,64 @@
 <div class="sidebar">
     <div class="controls">
         <h3>Text</h3>
-        <input type="text" id="text-input" placeholder="Edit text here..." value="EDIT ME">
+        <input type="text" id="text-input" placeholder="Edit text here..." value="INTER TYPE">
 
         <h3>Typography</h3>
         <div class="control-group">
-            <label>Font</label>
+            <label>Font Family (20+)</label>
             <select id="font-select">
+                <option value="Inter">Inter</option>
                 <option value="Roboto">Roboto</option>
+                <option value="Montserrat">Montserrat</option>
+                <option value="Playfair Display">Playfair Display</option>
+                <option value="Oswald">Oswald</option>
+                <option value="Bebas Neue">Bebas Neue</option>
                 <option value="Lobster">Lobster</option>
                 <option value="Pacifico">Pacifico</option>
-                <option value="Bebas Neue">Bebas Neue</option>
+                <option value="Orbitron">Orbitron</option>
+                <option value="Syncopate">Syncopate</option>
+                <option value="Cinzel">Cinzel</option>
+                <option value="Anton">Anton</option>
+                <option value="Satisfy">Satisfy</option>
+                <option value="Fredoka One">Fredoka One</option>
+                <option value="Monoton">Monoton</option>
                 <option value="Press Start 2P">Pixel</option>
                 <option value="Righteous">Righteous</option>
+                <option value="Abril Fatface">Abril Fatface</option>
+                <option value="Permanent Marker">Permanent Marker</option>
+                <option value="Caveat">Caveat</option>
+                <option value="Comfortaa">Comfortaa</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Font Weight</label>
+            <select id="font-weight">
+                <option value="100">Thin (100)</option>
+                <option value="300">Light (300)</option>
+                <option value="400" selected>Regular (400)</option>
+                <option value="600">Semi Bold (600)</option>
+                <option value="700">Bold (700)</option>
+                <option value="900">Black (900)</option>
             </select>
         </div>
         <div style="display:flex; gap:10px;">
             <div class="control-group"><label>Size</label><input type="number" id="font-size" value="70"></div>
-            <div class="control-group"><label>Spacing</label><input type="number" id="letter-spacing" value="5"></div>
+            <div class="control-group"><label>Spacing</label><input type="number" id="letter-spacing" value="2"></div>
         </div>
-        <div class="control-group"><label>Line Height</label><input type="number" id="line-height" value="1.2" step="0.1"></div>
+        <div class="control-group"><label>Line Height</label><input type="number" id="line-height" value="1.1" step="0.1"></div>
 
-        <h3>Colors</h3>
+        <h3>Design</h3>
         <div class="control-group">
             <label>Text Color</label>
             <div class="color-row">
-                <div class="color-circle-wrapper">
-                    <input type="color" id="text-color" value="#6366f1">
-                </div>
+                <div class="color-circle-wrapper"><input type="color" id="text-color" value="#6366f1"></div>
                 <span class="hex-display" id="text-hex">#6366F1</span>
             </div>
         </div>
-        
         <div class="control-group">
             <label>Canvas Color</label>
             <div class="color-row">
-                <div class="color-circle-wrapper">
-                    <input type="color" id="canvas-color" value="#ffffff">
-                </div>
+                <div class="color-circle-wrapper"><input type="color" id="canvas-color" value="#ffffff"></div>
                 <span class="hex-display" id="canvas-hex">#FFFFFF</span>
             </div>
         </div>
@@ -185,19 +174,19 @@
             <option value="">Static</option>
             <option value="anim-bounce">Bounce</option>
             <option value="anim-wave">Wave</option>
-            <option value="anim-flipX">Flip 3D X</option>
-            <option value="anim-flipY">Flip 3D Y</option>
-            <option value="anim-zoom">Pulse Zoom</option>
+            <option value="anim-flipX">Flip X</option>
+            <option value="anim-flipY">Flip Y</option>
+            <option value="anim-zoom">Pulse</option>
             <option value="anim-wobble">Wobble</option>
             <option value="anim-jump">Squish Jump</option>
             <option value="anim-flash">Flash</option>
-            <option value="anim-shake">Hard Shake</option>
-            <option value="anim-glow">Glow Aura</option>
+            <option value="anim-shake">Shake</option>
+            <option value="anim-glow">Glow</option>
             <option value="anim-spin">Spin</option>
             <option value="anim-pulse-red">Danger Pulse</option>
             <option value="anim-rubber">Rubber Band</option>
-            <option value="anim-blur">Focus Blur</option>
-            <option value="anim-skew">Skew Drift</option>
+            <option value="anim-blur">Blur</option>
+            <option value="anim-skew">Skew</option>
             <option value="anim-float">Float</option>
             <option value="anim-heartBeat">Heart Beat</option>
             <option value="anim-rainbow">Rainbow</option>
@@ -231,7 +220,7 @@
 </div>
 
 <script>
-    const inputs = ['text-input', 'font-select', 'font-size', 'letter-spacing', 'line-height', 'text-color', 'canvas-color', 'anim-select'];
+    const inputs = ['text-input', 'font-select', 'font-weight', 'font-size', 'letter-spacing', 'line-height', 'text-color', 'canvas-color', 'anim-select'];
 
     const keyframeLibrary = {
         'anim-bounce': '@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }',
@@ -260,6 +249,7 @@
         const textValue = document.getElementById('text-input').value;
         const text = textValue || " "; 
         const font = document.getElementById('font-select').value;
+        const weight = document.getElementById('font-weight').value;
         const size = document.getElementById('font-size').value + 'px';
         const spacing = document.getElementById('letter-spacing').value + 'px';
         const lh = document.getElementById('line-height').value;
@@ -277,7 +267,7 @@
 
         text.split('').forEach((char, i) => {
             const display = char === ' ' ? '&nbsp;' : char;
-            const style = `color:${color}; font-size:${size}; font-family:'${font}', sans-serif; letter-spacing:${spacing}; line-height:${lh}; animation-delay:${i * 0.1}s;`;
+            const style = `color:${color}; font-size:${size}; font-family:'${font}', sans-serif; font-weight:${weight}; letter-spacing:${spacing}; line-height:${lh}; animation-delay:${i * 0.1}s;`;
             
             const span = document.createElement('span');
             span.className = `char ${anim}`;
@@ -288,7 +278,7 @@
         });
 
         const activeKeyframes = keyframeLibrary[anim] || '';
-        const fullEmbed = `<style>\n  @import url('https://fonts.googleapis.com/css2?family=${font.replace(/ /g, '+')}');\n  .char { display: inline-block; white-space: pre; }\n  .${anim} { animation: ${anim.replace('anim-', '')} 1.5s infinite; }\n  ${activeKeyframes}\n</style>\n\n<div style="display:flex; flex-wrap:wrap; justify-content:center;">\n${snippet}</div>`;
+        const fullEmbed = `<style>\n  @import url('https://fonts.googleapis.com/css2?family=${font.replace(/ /g, '+')}:wght@${weight}');\n  .char { display: inline-block; white-space: pre; }\n  .${anim} { animation: ${anim.replace('anim-', '')} 1.5s infinite; }\n  ${activeKeyframes}\n</style>\n\n<div style="display:flex; flex-wrap:wrap; justify-content:center;">\n${snippet}</div>`;
 
         document.getElementById('embed-code').value = fullEmbed;
     }
