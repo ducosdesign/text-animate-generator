@@ -14,7 +14,6 @@
             --sidebar: #1e1e1e;
             --accent: #6366f1;
             --text: #e0e0e0;
-            --success: #10b981;
         }
 
         body { font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; background: var(--bg); color: var(--text); overflow: hidden; }
@@ -41,8 +40,8 @@
         .btn-png { background: var(--accent); color: white; }
         .btn-copy { background: #444; color: white; margin-top: 10px; font-size: 0.8rem; }
 
-        #text-wrap { display: flex; flex-wrap: wrap; justify-content: center; width: 100%; }
-        .char { display: inline-block; white-space: pre; }
+        #text-wrap { display: flex; flex-wrap: wrap; justify-content: center; width: 100%; cursor: default; }
+        .char { display: inline-block; white-space: pre; transition: transform 0.2s; }
         textarea { flex: 1; background: #0f0f0f; color: #75beff; border: none; padding: 15px; font-family: monospace; font-size: 11px; resize: none; }
 
         /* Keyframes */
@@ -67,27 +66,10 @@
         @keyframes slideUp { 0% { transform: translateY(0); } 50% { transform: translateY(-10px); opacity: 0.5; } 100% { transform: translateY(0); } }
         @keyframes swing { 20% { transform: rotate3d(0, 0, 1, 15deg); } 40% { transform: rotate3d(0, 0, 1, -10deg); } 60% { transform: rotate3d(0, 0, 1, 5deg); } 80% { transform: rotate3d(0, 0, 1, -5deg); } 100% { transform: rotate3d(0, 0, 1, 0deg); } }
 
-        /* Animation Classes linked to duration variable */
-        .anim-bounce { animation: bounce var(--dur) infinite; }
-        .anim-wave { animation: wave var(--dur) infinite; }
-        .anim-flipX { animation: flipX var(--dur) infinite linear; }
-        .anim-flipY { animation: flipY var(--dur) infinite linear; }
-        .anim-zoom { animation: zoom var(--dur) infinite; }
-        .anim-wobble { animation: wobble var(--dur) infinite; }
-        .anim-jump { animation: jump var(--dur) infinite; }
-        .anim-flash { animation: flash var(--dur) infinite; }
-        .anim-shake { animation: shake var(--dur) infinite; }
-        .anim-glow { animation: glow var(--dur) infinite; }
-        .anim-spin { animation: spin var(--dur) infinite linear; }
-        .anim-pulse-red { animation: pulse-red var(--dur) infinite; }
-        .anim-rubber { animation: rubber var(--dur) infinite; }
-        .anim-blur { animation: blur var(--dur) infinite; }
-        .anim-skew { animation: skew var(--dur) infinite; }
-        .anim-float { animation: float var(--dur) infinite ease-in-out; }
-        .anim-heartBeat { animation: heartBeat var(--dur) infinite; }
-        .anim-rainbow { animation: rainbow var(--dur) infinite linear; }
-        .anim-slideUp { animation: slideUp var(--dur) infinite; }
-        .anim-swing { animation: swing var(--dur) infinite; transform-origin: top center; }
+        /* Dynamic Classes */
+        .loop-mode { animation-iteration-count: infinite !important; }
+        .hover-mode { animation-play-state: paused; }
+        #text-wrap:hover .hover-mode { animation-play-state: running; animation-iteration-count: infinite; }
     </style>
 </head>
 <body>
@@ -107,49 +89,30 @@
                     <option value="Roboto">Roboto</option>
                     <option value="Montserrat">Montserrat</option>
                     <option value="Bebas Neue">Bebas Neue</option>
-                    <option value="Comfortaa">Comfortaa</option>
                 </optgroup>
                 <optgroup label="Serif">
                     <option value="Playfair Display">Playfair Display</option>
-                    <option value="Abril Fatface">Abril Fatface</option>
                     <option value="Cinzel">Cinzel</option>
-                    <option value="Oswald">Oswald</option>
                 </optgroup>
-                <optgroup label="Cursive / Script">
+                <optgroup label="Cursive">
                     <option value="Lobster">Lobster</option>
                     <option value="Pacifico">Pacifico</option>
-                    <option value="Satisfy">Satisfy</option>
-                    <option value="Caveat">Caveat</option>
                 </optgroup>
-                <optgroup label="Display / Retro">
+                <optgroup label="Display">
                     <option value="Monoton">Monoton</option>
                     <option value="Press Start 2P">Pixel</option>
-                    <option value="Orbitron">Orbitron</option>
-                    <option value="Righteous">Righteous</option>
-                    <option value="Syncopate">Syncopate</option>
-                    <option value="Permanent Marker">Marker</option>
-                    <option value="Anton">Anton</option>
                 </optgroup>
             </select>
         </div>
         
         <div id="custom-font-container" class="control-group" style="display:none;">
-            <label>Font URL (.ttf, .otf, .woff)</label>
+            <label>Font URL</label>
             <input type="text" id="custom-font-url" placeholder="https://example.com/font.ttf">
         </div>
 
-        <div class="control-group">
-            <label>Font Weight</label>
-            <select id="font-weight">
-                <option value="300">Light</option>
-                <option value="400" selected>Regular</option>
-                <option value="700">Bold</option>
-                <option value="900">Black</option>
-            </select>
-        </div>
         <div style="display:flex; gap:10px;">
+            <div class="control-group"><label>Weight</label><input type="number" id="font-weight" value="400" step="100"></div>
             <div class="control-group"><label>Size</label><input type="number" id="font-size" value="70"></div>
-            <div class="control-group"><label>Spacing</label><input type="number" id="letter-spacing" value="2"></div>
         </div>
 
         <h3>Design</h3>
@@ -162,29 +125,22 @@
             <span class="hex-display" id="canvas-hex">#FFFFFF</span>
         </div>
 
-        <h3>Motion Options (20)</h3>
+        <h3>Motion Options</h3>
+        <div class="control-group">
+            <label>Play Mode</label>
+            <select id="play-mode">
+                <option value="loop-mode">Continuous Loop</option>
+                <option value="hover-mode">Hover to Play</option>
+            </select>
+        </div>
         <div class="control-group">
             <label>Effect</label>
             <select id="anim-select">
                 <option value="anim-bounce">Bounce</option>
                 <option value="anim-wave">Wave</option>
-                <option value="anim-flipX">Flip X</option>
-                <option value="anim-flipY">Flip Y</option>
                 <option value="anim-zoom">Pulse</option>
-                <option value="anim-wobble">Wobble</option>
-                <option value="anim-jump">Jump</option>
-                <option value="anim-flash">Flash</option>
-                <option value="anim-shake">Shake</option>
-                <option value="anim-glow">Glow</option>
-                <option value="anim-spin">Spin</option>
-                <option value="anim-pulse-red">Danger Pulse</option>
-                <option value="anim-rubber">Rubber Band</option>
-                <option value="anim-blur">Blur</option>
-                <option value="anim-skew">Skew</option>
-                <option value="anim-float">Float</option>
-                <option value="anim-heartBeat">Heart Beat</option>
                 <option value="anim-rainbow">Rainbow</option>
-                <option value="anim-slideUp">Slide Up</option>
+                <option value="anim-float">Float</option>
                 <option value="anim-swing">Swing</option>
             </select>
         </div>
@@ -192,17 +148,13 @@
             <label>Speed (s)</label>
             <input type="number" id="anim-duration" value="1.5" step="0.1">
         </div>
-        <div class="control-group">
-            <label>Stagger (s)</label>
-            <input type="number" id="anim-stagger" value="0.1" step="0.05">
-        </div>
 
         <div class="btn-stack">
             <button class="btn-png" onclick="exportPNG()">Download PNG</button>
         </div>
     </div>
     <div class="instructions">
-        <strong>Manual:</strong> Use "Custom" to load a font via URL. Embed Code includes your custom font reference.
+        <strong>Manual:</strong> Set "Play Mode" to Hover to create interactive text for your website.
         <div class="credit">Prompt Engineer: Liz Ducos</div>
     </div>
 </div>
@@ -219,46 +171,29 @@
 </div>
 
 <script>
-    const inputs = ['text-input', 'font-select', 'custom-font-url', 'font-weight', 'font-size', 'letter-spacing', 'text-color', 'canvas-color', 'anim-select', 'anim-duration', 'anim-stagger'];
+    const inputs = ['text-input', 'font-select', 'custom-font-url', 'font-weight', 'font-size', 'text-color', 'canvas-color', 'anim-select', 'anim-duration', 'play-mode'];
 
     const keyframeLibrary = {
         'anim-bounce': '@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }',
         'anim-wave': '@keyframes wave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(15deg); } }',
-        'anim-flipX': '@keyframes flipX { 0% { transform: rotateX(0); } 100% { transform: rotateX(360deg); } }',
-        'anim-flipY': '@keyframes flipY { 0% { transform: rotateY(0); } 100% { transform: rotateY(360deg); } }',
         'anim-zoom': '@keyframes zoom { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }',
-        'anim-wobble': '@keyframes wobble { 0% { transform: translateX(0); } 25% { transform: translateX(-5px) rotate(-5deg); } 75% { transform: translateX(5px) rotate(5deg); } }',
-        'anim-jump': '@keyframes jump { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.2, 0.8); } }',
-        'anim-flash': '@keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }',
-        'anim-shake': '@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }',
-        'anim-glow': '@keyframes glow { 0%, 100% { text-shadow: 0 0 5px currentColor; } 50% { text-shadow: 0 0 20px currentColor; } }',
-        'anim-spin': '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }',
-        'anim-pulse-red': '@keyframes pulse-red { 0% { transform: scale(1); } 50% { transform: scale(1.1); color: #ff0000; } 100% { transform: scale(1); } }',
-        'anim-rubber': '@keyframes rubber { 0% { transform: scale3d(1,1,1); } 30% { transform: scale3d(1.25,.75,1); } 40% { transform: scale3d(.75,1.25,1); } 50% { transform: scale3d(1.15,.85,1); } 100% { transform: scale3d(1,1,1); } }',
-        'anim-blur': '@keyframes blur { 0% { filter: blur(0px); } 50% { filter: blur(5px); } 100% { filter: blur(0px); } }',
-        'anim-skew': '@keyframes skew { 0% { transform: skew(0deg); } 50% { transform: skew(20deg); } 100% { transform: skew(0deg); } }',
-        'anim-float': '@keyframes float { 0% { transform: translate(0, 0); } 50% { transform: translate(5px, -10px); } 100% { transform: translate(0, 0); } }',
-        'anim-heartBeat': '@keyframes heartBeat { 0% { transform: scale(1); } 14% { transform: scale(1.3); } 28% { transform: scale(1); } 42% { transform: scale(1.3); } 70% { transform: scale(1); } }',
         'anim-rainbow': '@keyframes rainbow { 0% { color: red; } 20% { color: orange; } 40% { color: yellow; } 60% { color: green; } 80% { color: blue; } 100% { color: violet; } }',
-        'anim-slideUp': '@keyframes slideUp { 0% { transform: translateY(0); } 50% { transform: translateY(-10px); opacity: 0.5; } 100% { transform: translateY(0); } }',
+        'anim-float': '@keyframes float { 0% { transform: translate(0, 0); } 50% { transform: translate(5px, -10px); } 100% { transform: translate(0, 0); } }',
         'anim-swing': '@keyframes swing { 20% { transform: rotate3d(0, 0, 1, 15deg); } 40% { transform: rotate3d(0, 0, 1, -10deg); } 60% { transform: rotate3d(0, 0, 1, 5deg); } 80% { transform: rotate3d(0, 0, 1, -5deg); } 100% { transform: rotate3d(0, 0, 1, 0deg); } }'
     };
 
     function update() {
-        const textValue = document.getElementById('text-input').value;
-        const text = textValue || " "; 
+        const text = document.getElementById('text-input').value || " "; 
         const fontSelect = document.getElementById('font-select').value;
         const customUrl = document.getElementById('custom-font-url').value;
         const weight = document.getElementById('font-weight').value;
         const size = document.getElementById('font-size').value + 'px';
-        const spacing = document.getElementById('letter-spacing').value + 'px';
         const color = document.getElementById('text-color').value;
         const canvas = document.getElementById('canvas-color').value;
         const anim = document.getElementById('anim-select').value;
         const duration = document.getElementById('anim-duration').value + 's';
-        const stagger = document.getElementById('anim-stagger').value;
+        const playMode = document.getElementById('play-mode').value;
 
-        // UI Toggles
         document.getElementById('custom-font-container').style.display = fontSelect === 'Custom' ? 'block' : 'none';
 
         let fontName = fontSelect;
@@ -274,7 +209,6 @@
             document.getElementById('custom-font-style').innerHTML = "";
         }
 
-        document.documentElement.style.setProperty('--dur', duration);
         document.getElementById('text-hex').textContent = color.toUpperCase();
         document.getElementById('canvas-hex').textContent = canvas.toUpperCase();
         document.getElementById('capture-zone').style.backgroundColor = canvas;
@@ -285,17 +219,26 @@
 
         text.split('').forEach((char, i) => {
             const display = char === ' ' ? '&nbsp;' : char;
-            const style = `color:${color}; font-size:${size}; font-family:'${fontName}', sans-serif; font-weight:${weight}; letter-spacing:${spacing}; animation-delay:${i * stagger}s;`;
+            const style = `color:${color}; font-size:${size}; font-family:'${fontName}', sans-serif; font-weight:${weight}; animation-delay:${i * 0.1}s; animation-duration:${duration};`;
             const span = document.createElement('span');
-            span.className = `char ${anim}`;
+            span.className = `char ${anim} ${playMode}`;
             span.style.cssText = style;
             span.innerHTML = display;
             container.appendChild(span);
-            snippet += `  <span class="char ${anim}" style="${style}">${display}</span>\n`;
+            snippet += `  <span class="char ${anim} ${playMode}" style="${style}">${display}</span>\n`;
         });
 
         const activeKeyframes = keyframeLibrary[anim] || '';
-        document.getElementById('embed-code').value = `<style>\n  ${importRule}\n  ${fontFaceRule}\n  .char { display: inline-block; white-space: pre; }\n  .${anim} { animation: ${anim.replace('anim-', '')} ${duration} infinite; }\n  ${activeKeyframes}\n</style>\n\n<div style="display:flex; flex-wrap:wrap; justify-content:center;">\n${snippet}</div>`;
+        const rawAnimName = anim.replace('anim-', '');
+        
+        let hoverCSS = "";
+        if (playMode === "hover-mode") {
+            hoverCSS = `.text-container:hover .char { animation-play-state: running; animation-iteration-count: infinite; } .char { animation-play-state: paused; }`;
+        } else {
+            hoverCSS = `.char { animation-iteration-count: infinite; }`;
+        }
+
+        document.getElementById('embed-code').value = `<style>\n  ${importRule}\n  ${fontFaceRule}\n  .text-container { display:flex; flex-wrap:wrap; justify-content:center; }\n  .char { display: inline-block; white-space: pre; animation-name: ${rawAnimName}; }\n  ${hoverCSS}\n  ${activeKeyframes}\n</style>\n\n<div class="text-container">\n${snippet}</div>`;
     }
 
     function exportPNG() {
